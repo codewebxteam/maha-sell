@@ -20,11 +20,11 @@ export default function AdminRoute({ children }) {
   useEffect(() => {
     if (!loading) {
       if (!user) {
-        // Not logged in, redirect to single login
-        router.push("/login");
+        // Not logged in, replace to login
+        router.replace("/login");
       } else if (!isAdmin) {
-        // Logged in as regular customer, redirect to storefront home
-        router.push("/");
+        // Logged in as regular customer, replace to storefront home
+        router.replace("/");
       }
     }
   }, [user, isAdmin, loading, router]);

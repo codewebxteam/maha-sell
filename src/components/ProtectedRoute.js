@@ -10,8 +10,8 @@ export default function ProtectedRoute({ children }) {
 
   useEffect(() => {
     if (!loading && !user) {
-      // Not logged in, redirect to login
-      router.push("/login");
+      // Not logged in, replace route with login so back button works seamlessly
+      router.replace("/login");
     }
   }, [user, loading, router]);
 

@@ -11,15 +11,21 @@ export default function MobileBottomNav() {
   const { wishlist } = useCartWishlist();
   const { user } = useAuth();
 
-  // Hide the global mobile bottom nav on PDP (/product/*), checkout (/checkout), and admin panel (/admin)
+  // Hide the global mobile bottom nav on PDP (/product/*), checkout (/checkout), admin panel (/admin), and auth pages (/login, /register)
   // because these pages render their own specialized full-width navigation/action bars
-  if (pathname.startsWith("/product/") || pathname.startsWith("/checkout") || pathname.startsWith("/admin")) {
+  if (
+    pathname.startsWith("/product/") || 
+    pathname.startsWith("/checkout") || 
+    pathname.startsWith("/admin") ||
+    pathname === "/login" ||
+    pathname === "/register"
+  ) {
     return null;
   }
 
   const navItems = [
     { label: "Home", href: "/", icon: Home, exact: true },
-    { label: "Collections", href: "/collections/sarees", icon: Layers },
+    { label: "Collections", href: "/collections", icon: Layers },
     { label: "Search", href: "/search", icon: Search },
     { label: "Wishlist", href: "/wishlist", icon: Heart, badge: wishlist.length },
     { label: "Account", href: user ? "/account" : "/login", icon: User },
