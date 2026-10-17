@@ -389,15 +389,18 @@ function AddProductForm() {
 
               <div>
                 <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
-                  Fabric Type *
+                  Fabric Type (Optional)
                 </label>
                 <select
-                  required
                   value={formData.fabric}
-                  onChange={(e) => setFormData({ ...formData, fabric: e.target.value, fabricName: e.target.options[e.target.selectedIndex].text })}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    const name = val ? e.target.options[e.target.selectedIndex].text : "";
+                    setFormData({ ...formData, fabric: val, fabricName: name });
+                  }}
                   className="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#C5832B]/50 text-stone-800"
                 >
-                  <option value="" disabled>-- Select Fabric --</option>
+                  <option value="">-- None / Select Fabric (Optional) --</option>
                   {dynamicCategories.filter(cat => cat.type === "fabric").map(cat => (
                     <option key={cat.id} value={cat.slug}>{cat.name}</option>
                   ))}
@@ -534,20 +537,20 @@ function AddProductForm() {
             </div>
           </div>
 
-          {/* Section 5: Craft Specifications */}
+          {/* Section 5: Product Specifications */}
           <div className="pt-4 border-t border-stone-100 space-y-4">
             <h3 className="font-serif font-bold text-base text-stone-900 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#C5832B]"></span> Craft Specifications & Artisan Details
+              <span className="w-2 h-2 rounded-full bg-[#C5832B]"></span> Product Specifications & Material Details
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
-                  Zari Quality
+                  Material / Finish Quality
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. Pure Gold Electroplated Zari / Matte Antique Gold"
+                  placeholder="e.g. 100% Cotton / Genuine Leather / EVA Sole"
                   value={formData.zari}
                   onChange={(e) => setFormData({ ...formData, zari: e.target.value })}
                   className="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#C5832B]/50 placeholder:text-stone-400"
@@ -556,11 +559,11 @@ function AddProductForm() {
 
               <div>
                 <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
-                  Length & Measurements
+                  Size & Measurements
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. 5.5 meters saree + 0.8 meter blouse piece"
+                  placeholder="e.g. Regular Fit / Size: UK 7-10 / M-XXL"
                   value={formData.length}
                   onChange={(e) => setFormData({ ...formData, length: e.target.value })}
                   className="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#C5832B]/50 placeholder:text-stone-400"
@@ -570,11 +573,11 @@ function AddProductForm() {
 
             <div>
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
-                Detailed Drape Description
+                Detailed Product Description
               </label>
               <textarea
                 rows={4}
-                placeholder="Describe the texture, feel, border craftsmanship, and styling recommendations for the bride..."
+                placeholder="Describe product highlights, fit, material comfort, and style recommendations..."
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3.5 text-xs focus:outline-none focus:ring-2 focus:ring-[#C5832B]/50 placeholder:text-stone-400"
