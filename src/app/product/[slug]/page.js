@@ -537,70 +537,9 @@ export default function ProductDetailPage({ params }) {
                 </div>
 
                 <span className="text-[10px] sm:text-[11px] text-stone-500 block mt-2">
-                  Inclusive of all taxes • Handcrafted Pure Silk • Free Express Doorstep Delivery
+                  Inclusive of all taxes • 100% Genuine Quality Guaranteed • Free Express Doorstep Delivery
                 </span>
               </div>
-
-              {/* Exclusive Member & Bank Offers Box (Dynamic from Admin) */}
-              {activeOffers && activeOffers.length > 0 && (
-                <div className="p-3.5 sm:p-4 rounded-2xl bg-amber-50/80 border border-amber-300/60 space-y-2.5">
-                  <div className="flex items-center justify-between text-xs font-bold text-[#3E0C15] uppercase tracking-wider">
-                    <div className="flex items-center gap-2">
-                      <Tag className="w-3.5 h-3.5 text-amber-700" />
-                      <span>Available Offers & Privileges</span>
-                    </div>
-                    {appliedCoupon && (
-                      <span className="text-[10px] text-emerald-800 font-bold bg-emerald-100 px-2 py-0.5 rounded-full lowercase tracking-normal">
-                        code {appliedCoupon.code} active
-                      </span>
-                    )}
-                  </div>
-                  
-                  <ul className="space-y-2 text-xs text-stone-700">
-                    {activeOffers.map((offer, idx) => {
-                      const isApplied = appliedCoupon?.code === offer.code;
-                      const isCopied = copiedPromo === offer.code;
-
-                      if (offer.type === "info") {
-                        return (
-                          <li key={offer.code + idx} className="flex items-start gap-2">
-                            <span className="font-mono font-bold text-emerald-800 bg-emerald-100 px-1.5 py-0.5 rounded text-[10px] shrink-0">
-                              {offer.code}
-                            </span>
-                            <span className="text-[11px] sm:text-xs text-stone-700">{offer.description}</span>
-                          </li>
-                        );
-                      }
-
-                      return (
-                        <li key={offer.code + idx} className="flex items-center justify-between gap-2">
-                          <div className="flex items-start gap-2">
-                            <span className="font-mono font-bold text-[#3E0C15] bg-amber-200/90 px-1.5 py-0.5 rounded text-[10px] shrink-0">
-                              {offer.code}
-                            </span>
-                            <span className="text-[11px] sm:text-xs text-stone-700">
-                              {offer.description}
-                            </span>
-                          </div>
-                          <button 
-                            type="button"
-                            onClick={() => handleCopyPromo(offer)} 
-                            className={`text-[10px] font-bold px-2.5 py-1 rounded-md transition-all shrink-0 cursor-pointer ${
-                              isApplied
-                                ? "bg-emerald-700 text-white shadow-xs"
-                                : isCopied
-                                ? "bg-amber-400 text-[#3E0C15] font-extrabold"
-                                : "text-amber-900 bg-amber-200/70 hover:bg-amber-300"
-                            }`}
-                          >
-                            {isApplied ? "Applied ✓" : isCopied ? "Copied ✓" : "Apply"}
-                          </button>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              )}
 
               {/* Color / Variant Swatch Selector */}
               <div>

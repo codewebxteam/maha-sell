@@ -12,11 +12,11 @@ export const DEFAULT_COUPONS = [
     isActive: true,
   },
   {
-    code: "SAREECLUB",
+    code: "MAHA500",
     type: "flat",
-    value: 2000,
-    minOrder: 10000,
-    description: "₹2,000 welcome credit for registered Saree Club members.",
+    value: 500,
+    minOrder: 2999,
+    description: "₹500 flat discount for registered Maha Sell members on orders above ₹2,999.",
     tag: "MEMBER OFFER",
     isActive: true,
   },
@@ -41,7 +41,7 @@ export const DEFAULT_COUPONS = [
 ];
 
 export const DEFAULT_ANNOUNCEMENT =
-  "✨ Grand Festive Collection Live: Use Code ROYAL10 for Flat 10% Off | Free Express Shipping Across India ✨";
+  "🔥 Mega Sale is Live: Flat 50% to 80% Off on Men, Women, Kids & Footwear | Free Express Delivery Across India 🔥";
 
 /**
  * Normalizes a coupon object into a consistent structure.

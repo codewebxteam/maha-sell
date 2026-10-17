@@ -50,7 +50,7 @@ export default function NewsletterSection() {
 
   const handleCopyCode = () => {
     if (navigator.clipboard) {
-      navigator.clipboard.writeText("SAREECLUB2000");
+      navigator.clipboard.writeText("MAHA500");
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     }
@@ -79,12 +79,12 @@ export default function NewsletterSection() {
 
         {/* Main Heading */}
         <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-normal text-white max-w-2xl mx-auto leading-tight tracking-wide">
-          JOIN THE SAREE CLUB
+          JOIN THE MAHA VIP CLUB
         </h2>
 
         {/* Subtitle */}
         <p className="text-stone-300 text-xs sm:text-sm md:text-base max-w-lg mx-auto mt-3 mb-8 leading-relaxed font-light">
-          Be the first to preview rare loom drops, receive private salon invitations, and unlock an exclusive <span className="text-amber-400 font-medium">₹2,000 privilege voucher</span> on your inaugural heirloom.
+          Be the first to preview mega sale drops, flash discounts, and unlock an exclusive <span className="text-amber-400 font-medium">₹500 privilege voucher</span> on your first order.
         </p>
 
         {/* Subscription Card / Form */}
@@ -95,7 +95,7 @@ export default function NewsletterSection() {
             </div>
 
             <h3 className="font-serif-luxury text-2xl text-white font-medium mb-1">
-              Welcome to the Saree Club
+              Welcome to the Maha VIP Club
             </h3>
             <p className="text-stone-300 text-xs sm:text-sm mb-5 leading-relaxed">
               We have dispatched your private welcome dossier and gift coupon to{" "}
@@ -106,7 +106,7 @@ export default function NewsletterSection() {
             <div className="bg-amber-950/40 border border-dashed border-amber-500/50 rounded-xl p-3.5 mb-5 flex items-center justify-between gap-3">
               <div className="text-left">
                 <span className="text-[10px] uppercase tracking-wider text-amber-400 block font-medium">Your Welcome Code</span>
-                <span className="text-base sm:text-lg font-mono font-bold tracking-widest text-white">SAREECLUB2000</span>
+                <span className="text-base sm:text-lg font-mono font-bold tracking-widest text-white">MAHA500</span>
               </div>
               <button
                 onClick={handleCopyCode}
