@@ -1,0 +1,64 @@
+<svg width="512" height="512" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sbGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9E7D2E" />
+      <stop offset="25%" stop-color="#D4AF37" />
+      <stop offset="55%" stop-color="#FFF2D6" />
+      <stop offset="80%" stop-color="#C5A049" />
+      <stop offset="100%" stop-color="#8A6820" />
+    </linearGradient>
+
+    <linearGradient id="sbMaroon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#571520" />
+      <stop offset="50%" stop-color="#3E0C15" />
+      <stop offset="100%" stop-color="#24070D" />
+    </linearGradient>
+  </defs>
+
+  <rect 
+    x="12" 
+    y="12" 
+    width="76" 
+    height="76" 
+    rx="22" 
+    transform="rotate(45 50 50)" 
+    fill="#FAF7F2" 
+    stroke="url(#sbGold)" 
+    stroke-width="2.5" 
+    stroke-dasharray="4 2"
+  />
+
+  <rect 
+    x="18" 
+    y="18" 
+    width="64" 
+    height="64" 
+    rx="18" 
+    transform="rotate(45 50 50)" 
+    fill="url(#sbMaroon)" 
+    stroke="url(#sbGold)" 
+    stroke-width="1.8" 
+  />
+
+  <g stroke="url(#sbGold)" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path 
+      d="M 32 66 L 32 37 L 50 56 L 68 37 L 68 66" 
+      stroke-width="4.5" 
+    />
+    <path 
+      d="M 36 64 L 36 41 L 50 58 L 64 41 L 64 64" 
+      stroke-width="1.5" 
+      stroke-opacity="0.9" 
+    />
+    <path 
+      d="M 50 63 L 53.5 67.5 L 50 72 L 46.5 67.5 Z" 
+      fill="url(#sbGold)" 
+      stroke-width="0.8" 
+    />
+    <path 
+      d="M 50 20 C 50 24, 53 27, 57 27 C 53 27, 50 30, 50 34 C 50 30, 47 27, 43 27 C 47 27, 50 24, 50 20 Z" 
+      fill="url(#sbGold)" 
+      stroke="none" 
+    />
+  </g>
+</svg>
