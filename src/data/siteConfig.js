@@ -5,6 +5,8 @@
 export const SITE_CONFIG = {
   brandName: "Maha Sell",
   brandNameUpper: "MAHA SELL",
+  companyName: "SP Gooseberry Textile Pvt. Ltd.",
+  legalEntity: "SP Gooseberry Textile Pvt. Ltd.",
   tagline: "India's Mega Sale Destination",
   subTagline: "Mega Deals & Unmatched Savings",
   contact: {

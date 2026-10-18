@@ -399,13 +399,13 @@ const STATIC_PAGES_DATA = {
     content: (
       <div className="space-y-6 text-stone-700 leading-relaxed text-xs sm:text-sm">
         <p>
-          MAHA SELL Pvt. Ltd. (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;us&rdquo;) is committed to protecting the privacy, confidentiality, and security of all customers and website visitors.
+          SP Gooseberry Textile Pvt. Ltd. (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;us&rdquo;) is committed to protecting the privacy, confidentiality, and security of all customers and website visitors.
         </p>
         
         <div className="space-y-4">
           <div className="p-4 bg-white rounded-xl border border-stone-200">
             <h4 className="font-bold text-stone-900 text-sm">1. Information We Collect</h4>
-            <p className="text-stone-600 mt-1">We collect name, email address, mobile number, shipping destination, and blouse measurement profiles only to process and fulfill your bespoke textile commissions.</p>
+            <p className="text-stone-600 mt-1">We collect name, email address, mobile number, shipping destination, and sizing preferences only to process and fulfill your orders.</p>
           </div>
           <div className="p-4 bg-white rounded-xl border border-stone-200">
             <h4 className="font-bold text-stone-900 text-sm">2. 256-Bit Payment Encryption</h4>
@@ -413,7 +413,7 @@ const STATIC_PAGES_DATA = {
           </div>
           <div className="p-4 bg-white rounded-xl border border-stone-200">
             <h4 className="font-bold text-stone-900 text-sm">3. No Third-Party Data Sharing</h4>
-            <p className="text-stone-600 mt-1">Your contact data is never rented, monetized, or sold to third-party marketers. We only communicate regarding order status and private Saree Club privileges.</p>
+            <p className="text-stone-600 mt-1">Your contact data is never rented, monetized, or sold to third-party marketers. We only communicate regarding order updates and exclusive shopping privileges.</p>
           </div>
         </div>
       </div>
@@ -423,26 +423,26 @@ const STATIC_PAGES_DATA = {
   // 6. TERMS & CONDITIONS
   "terms-conditions": {
     badge: "Legal Terms",
-    title: "Terms of Service & Handloom Authenticities",
-    subtitle: "Official terms governing orders, handloom variations, pricing, and warranties.",
+    title: "Terms of Service & Commercial Conditions",
+    subtitle: "Official terms governing orders, pricing, warranties, and consumer rights.",
     content: (
       <div className="space-y-6 text-stone-700 leading-relaxed text-xs sm:text-sm">
         <p>
-          By accessing or ordering from MAHA SELL, you agree to be bound by the following terms and authentic craftsmanship standards.
+          By accessing or ordering from MAHA SELL, you agree to be bound by the following terms and commercial standards.
         </p>
 
         <div className="space-y-4">
           <div className="p-4 bg-white rounded-xl border border-stone-200">
-            <h4 className="font-bold text-stone-900 text-sm">1. Handcrafted Nature of Sarees</h4>
-            <p className="text-stone-600 mt-1">Because our sarees are woven by human hands on traditional looms, subtle variations in weft slubs, zari lock knots, or color dye depths are natural hallmarks of authentic artisan craft, not defects.</p>
+            <h4 className="font-bold text-stone-900 text-sm">1. Product Quality & Standards</h4>
+            <p className="text-stone-600 mt-1">Every product showcased on Maha Sell undergoes multi-tier quality checks. Subtle color variations may occur depending on digital display calibration and photographic studio lighting.</p>
           </div>
           <div className="p-4 bg-white rounded-xl border border-stone-200">
             <h4 className="font-bold text-stone-900 text-sm">2. Pricing & Currency</h4>
-            <p className="text-stone-600 mt-1">All prices displayed are in Indian Rupees (INR) inclusive of all applicable statutory GST (5%). International orders may be subject to destination import tariffs levied by local customs.</p>
+            <p className="text-stone-600 mt-1">All prices displayed are in Indian Rupees (INR) inclusive of statutory GST. Express delivery and COD are available across serviceable pincodes.</p>
           </div>
           <div className="p-4 bg-white rounded-xl border border-stone-200">
             <h4 className="font-bold text-stone-900 text-sm">3. Intellectual Property</h4>
-            <p className="text-stone-600 mt-1">All motifs, photography, brand imagery, and editorial chronicles are the registered intellectual property of MAHA SELL Pvt. Ltd.</p>
+            <p className="text-stone-600 mt-1">All motifs, photography, brand imagery, and editorial chronicles are the registered intellectual property of SP Gooseberry Textile Pvt. Ltd.</p>
           </div>
         </div>
       </div>

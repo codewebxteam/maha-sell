@@ -117,6 +117,7 @@ const jsonLdWebsite = {
       "@type": "Organization",
       "@id": "https://mahasell.in/#organization",
       "name": "Maha Sell",
+      "legalName": "SP Gooseberry Textile Pvt. Ltd.",
       "url": "https://mahasell.in",
       "logo": {
         "@type": "ImageObject",
