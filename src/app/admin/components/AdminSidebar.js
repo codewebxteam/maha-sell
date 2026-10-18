@@ -160,8 +160,8 @@ export default function AdminSidebar({ isMobileOpen, setIsMobileOpen }) {
                 SA
               </div>
               <div className="text-left leading-tight">
-                <p className="text-xs font-bold text-[#FAF7F2]">Super Admin</p>
-                <p className="text-[11px] text-stone-400">admin@mahasell.com</p>
+                <p className="text-xs font-bold text-[#FAF7F2]">{user?.displayName || "Admin"}</p>
+                <p className="text-[11px] text-stone-400 truncate max-w-[140px]">{user?.email || "info@mahasell.in"}</p>
               </div>
             </div>
             <button 

@@ -75,7 +75,7 @@ export default function WelcomeModal() {
     if (userData?.role === "admin") {
       router.push("/admin");
     } else {
-      router.push("/collections/sarees");
+      router.push("/collections");
     }
   };
 
@@ -204,10 +204,10 @@ export default function WelcomeModal() {
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-stone-900 uppercase tracking-wider">
-                    Pure Silk Mark Certified
+                    100% Original Products
                   </h4>
                   <p className="text-xs text-stone-600 mt-0.5 leading-snug">
-                    Authentic pure weaves and quality-assured products delivered straight to your doorstep.
+                    Authentic quality-verified collections across fashion, kids &amp; footwear delivered to your doorstep.
                   </p>
                 </div>
               </div>
@@ -232,10 +232,10 @@ export default function WelcomeModal() {
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-stone-900 uppercase tracking-wider">
-                    VIP Concierge Support
+                    Dedicated Concierge Support
                   </h4>
                   <p className="text-xs text-stone-600 mt-0.5 leading-snug">
-                    Direct WhatsApp assistance for styling & custom drape inquiries at {config.contact?.whatsapp || config.contact?.phone || "+91 82002 60300"}.
+                    Direct WhatsApp assistance for orders &amp; shopping inquiries at {config.contact?.whatsapp || config.contact?.phone || "+91 9770150015"}.
                   </p>
                 </div>
               </div>
@@ -256,7 +256,7 @@ export default function WelcomeModal() {
                 ) : (
                   <>
                     <ShoppingBag className="w-4 h-4 text-[#E8C574]" />
-                    <span>Explore Festive Sarees</span>
+                    <span>Explore Collections</span>
                   </>
                 )}
                 <ArrowRight className="w-4 h-4 ml-1" />

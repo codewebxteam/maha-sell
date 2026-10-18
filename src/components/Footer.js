@@ -24,13 +24,13 @@ export default function Footer({
 
   const socialLinksList = [
     {
-      label: "Instagram",
-      href: config.socialLinks?.instagram || "https://instagram.com/mahasell_official",
+      label: "Instagram (mahasell.in)",
+      href: config.socialLinks?.instagram || "https://instagram.com/mahasell.in",
       icon: "instagram"
     },
     {
       label: "Facebook",
-      href: config.socialLinks?.facebook || "https://facebook.com/mahasell_official",
+      href: config.socialLinks?.facebook || "https://facebook.com/mahasell.in",
       icon: "facebook"
     }
   ];
@@ -65,25 +65,25 @@ export default function Footer({
           </div>
         </div>
 
-        {/* Maha Sell Headquarter & Concierge Strip */}
+        {/* Maha Sell Support & Concierge Strip */}
         <div className="mb-10 p-5 rounded-2xl bg-white/[0.04] border border-white/10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 text-xs text-stone-300">
           <div className="flex items-start gap-3">
             <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
             <div>
-              <span className="font-bold text-white block">Maha Sell Flagship Studio &amp; Head Office:</span>
-              <span className="text-stone-400 text-[11px] leading-relaxed">{config.contact?.address}</span>
+              <span className="font-bold text-white block">Maha Sell Customer Operations &amp; Support:</span>
+              <span className="text-stone-400 text-[11px] leading-relaxed">{config.contact?.address || "Maha Sell India • Online Operations & Customer Support Desk"}</span>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-4 sm:gap-6 shrink-0">
             <a 
-              href={`tel:${(config.contact?.phone || "").replace(/[^0-9+]/g, '')}`} 
+              href={`tel:${(config.contact?.phone || "+91 9770150015").replace(/[^0-9+]/g, '')}`} 
               className="inline-flex items-center gap-1.5 hover:text-amber-300 transition-colors"
             >
               <Phone className="w-3.5 h-3.5 text-amber-400" />
-              <span>{config.contact?.phone}</span>
+              <span>{config.contact?.phone || "+91 9770150015"}</span>
             </a>
             <a 
-              href={`https://wa.me/${(config.contact?.whatsapp || config.contact?.phone || "").replace(/[^0-9]/g, '')}?text=Hello%20Maha%20Sell%2C%20I%20have%20an%20inquiry`} 
+              href={`https://wa.me/${(config.contact?.whatsapp || config.contact?.phone || "919770150015").replace(/[^0-9]/g, '')}?text=Hello%20Maha%20Sell%2C%20I%20have%20an%20inquiry`} 
               target="_blank" 
               rel="noopener noreferrer" 
               className="inline-flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 transition-colors font-medium bg-emerald-950/40 px-2.5 py-1 rounded-full border border-emerald-500/20"
@@ -92,11 +92,11 @@ export default function Footer({
               <span>WhatsApp Concierge</span>
             </a>
             <a 
-              href={`mailto:${config.contact?.email}`} 
+              href={`mailto:${config.contact?.email || "info@mahasell.in"}`} 
               className="inline-flex items-center gap-1.5 hover:text-amber-300 transition-colors"
             >
               <Mail className="w-3.5 h-3.5 text-amber-400" />
-              <span>{config.contact?.email}</span>
+              <span>{config.contact?.email || "info@mahasell.in"}</span>
             </a>
           </div>
         </div>
@@ -158,10 +158,28 @@ export default function Footer({
         <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-stone-400">
           
           {/* Copyright & Entity */}
-          <div className="text-center md:text-left space-y-1">
+          <div className="text-center md:text-left space-y-1.5">
             <p>© 2026 {config.brandName || "Maha Sell"} Pvt. Ltd. All rights reserved.</p>
-            <p className="text-[11px] text-stone-500 font-light">
-              Crafted for India with Unbeatable Quality &amp; Transparency.
+            <p className="text-[11px] text-stone-500 font-light flex flex-wrap items-center justify-center md:justify-start gap-1.5">
+              <span>Crafted for India with Unbeatable Quality &amp; Transparency.</span>
+              <span className="hidden sm:inline text-stone-600">•</span>
+              <span className="text-stone-400">
+                Designed &amp; Developed by{" "}
+                <a 
+                  href="https://codewebx.in" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-amber-400 hover:text-amber-300 font-semibold underline underline-offset-2 transition-colors"
+                >
+                  CodeWebX
+                </a>
+                {" "}(<a 
+                  href="https://codewebx.in" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:underline text-stone-400 hover:text-amber-300 transition-colors"
+                >codewebx.in</a>)
+              </span>
             </p>
           </div>
 

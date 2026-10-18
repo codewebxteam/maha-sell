@@ -140,9 +140,9 @@ export const FOOTER_COLUMNS = [
     id: "connect",
     title: "CONNECT WITH US",
     links: [
-      { label: "Instagram", href: "https://instagram.com", isExternal: true },
-      { label: "Facebook", href: "https://facebook.com", isExternal: true },
-      { label: "WhatsApp Support", href: "https://wa.me/919999999999", isExternal: true },
+      { label: "Instagram (@mahasell.in)", href: "https://instagram.com/mahasell.in", isExternal: true },
+      { label: "Facebook", href: "https://facebook.com/mahasell.in", isExternal: true },
+      { label: "WhatsApp Support", href: "https://wa.me/919770150015", isExternal: true },
     ],
   },
 ];

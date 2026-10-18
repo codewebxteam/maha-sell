@@ -34,8 +34,8 @@ export const StoreConfigProvider = ({ children }) => {
       },
       socialLinks: {
         ...prev.socialLinks,
-        instagram: data.instagramUrl || prev.socialLinks?.instagram || "https://instagram.com/mahasell_official",
-        facebook: data.facebookUrl || prev.socialLinks?.facebook || "https://facebook.com/mahasell_official",
+        instagram: data.instagramUrl || prev.socialLinks?.instagram || "https://instagram.com/mahasell.in",
+        facebook: data.facebookUrl || prev.socialLinks?.facebook || "https://facebook.com/mahasell.in",
       },
       policies: {
         freeShippingAbove: Number(data.freeShippingAbove) || 5000,

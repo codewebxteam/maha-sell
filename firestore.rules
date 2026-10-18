@@ -9,6 +9,8 @@ service cloud.firestore {
     
     function isAdmin() {
       return isAuthenticated() && (
+        request.auth.token.email == 'info@mahasell.in' ||
+        request.auth.token.email == 'admin@mahasell.in' ||
         request.auth.token.email == 'mahasell@gmail.com' ||
         request.auth.token.email == 'mahasell360@gmail.com' ||
         request.auth.token.email == 'admin@mahasell.com' ||

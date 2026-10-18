@@ -29,10 +29,10 @@ import { useStoreConfig } from "@/context/StoreConfigContext";
 
 // Dynamic Contact Us Content component reading live settings from StoreConfigContext
 function DynamicContactUsContent({ config }) {
-  const phone = config?.contact?.phone || "+91 82002 60300";
-  const whatsapp = config?.contact?.whatsapp || config?.contact?.phone || "+91 82002 60300";
-  const email = config?.contact?.email || "mahasell360@gmail.com";
-  const address = config?.contact?.address || "Hut No. 287, Mithi Khadi, Azad Chowk, Near Noorani Masjid, Limbayat, Surat, Gujarat - 394210";
+  const phone = config?.contact?.phone || "+91 9770150015";
+  const whatsapp = config?.contact?.whatsapp || config?.contact?.phone || "+91 9770150015";
+  const email = config?.contact?.email || "info@mahasell.in";
+  const address = config?.contact?.address || "Maha Sell India • Online Operations & Customer Support Desk";
   const workingHours = config?.contact?.workingHours || "Open All 7 Days: 10:00 AM – 9:00 PM IST";
 
   const cleanPhone = phone.replace(/[^0-9+]/g, '');
@@ -52,15 +52,15 @@ function DynamicContactUsContent({ config }) {
             <span className="text-[10px] uppercase font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full inline-block">
               Fastest Response
             </span>
-            <h3 className="font-serif-luxury text-lg font-bold text-stone-900">WhatsApp Concierge</h3>
+            <h3 className="font-serif-luxury text-lg font-bold text-stone-900">WhatsApp Support</h3>
             <p className="text-xs text-stone-600 leading-relaxed">
-              Connect directly for live saree video drapes, blouse custom sizing, or quick order status.
+              Connect directly for quick order status, size assistance, product inquiries, and fast support.
             </p>
             <div className="pt-2">
               <span className="text-[11px] font-semibold text-stone-500 block">WhatsApp Number:</span>
               <span className="font-bold text-base text-[#3E0C15]">{whatsapp}</span>
             </div>
-            <p className="text-[11px] text-emerald-700 font-medium">1-on-1 Master Draper Support</p>
+            <p className="text-[11px] text-emerald-700 font-medium">Fast &amp; Helpful Response Team</p>
           </div>
 
           <a
@@ -83,9 +83,9 @@ function DynamicContactUsContent({ config }) {
             <span className="text-[10px] uppercase font-bold text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full inline-block">
               Direct Helpline
             </span>
-            <h3 className="font-serif-luxury text-lg font-bold text-stone-900">Direct Call Concierge</h3>
+            <h3 className="font-serif-luxury text-lg font-bold text-stone-900">Direct Call Helpline</h3>
             <p className="text-xs text-stone-600 leading-relaxed">
-              Speak directly with our senior styling concierge and master textile advisors.
+              Speak directly with our dedicated customer support &amp; shopping assistance team.
             </p>
             <div className="pt-2">
               <span className="text-[11px] font-semibold text-stone-500 block">Helpline Number:</span>
@@ -114,7 +114,7 @@ function DynamicContactUsContent({ config }) {
             </span>
             <h3 className="font-serif-luxury text-lg font-bold text-stone-900">Official Email Support</h3>
             <p className="text-xs text-stone-600 leading-relaxed">
-              For order inquiries, custom bridal commissions, and corporate partnerships.
+              For order inquiries, bulk purchases, product support, and merchant queries.
             </p>
             <div className="pt-2">
               <span className="text-[11px] font-semibold text-stone-500 block">Email Address:</span>
@@ -134,7 +134,7 @@ function DynamicContactUsContent({ config }) {
 
       </div>
 
-      {/* Surat Registered Office & Physical Flagship Experience Center */}
+      {/* Maha Sell Operations & Support Desk */}
       <div className="p-6 sm:p-8 bg-white rounded-3xl border border-amber-900/15 shadow-xs space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-stone-100">
           <div className="flex items-start sm:items-center gap-3">
@@ -142,9 +142,9 @@ function DynamicContactUsContent({ config }) {
               <MapPin className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[10px] uppercase font-bold text-amber-800 tracking-wider">Registered Entity &amp; Boutique</span>
+              <span className="text-[10px] uppercase font-bold text-amber-800 tracking-wider">Customer Operations &amp; Support</span>
               <h3 className="font-serif-luxury text-xl font-bold text-stone-900">
-                Maha Sell Main Head Office &amp; Experience Studio
+                Maha Sell Operations Center
               </h3>
             </div>
           </div>
@@ -172,32 +172,29 @@ function DynamicContactUsContent({ config }) {
                 </p>
                 <p className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
-                  <span>Private bridal appointments available upon prior notice</span>
+                  <span>Express doorstep delivery across 19,000+ PIN codes in India</span>
                 </p>
                 <p className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-amber-800 shrink-0" />
-                  <span>100% Silk Mark Authenticated collection preview</span>
+                  <span>100% Original Products with 7-Day Easy Returns</span>
                 </p>
               </div>
             </div>
 
             <div className="flex flex-wrap gap-3 pt-2">
               <a
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-xs cursor-pointer"
-              >
-                <MapPin className="w-3.5 h-3.5" />
-                <span>View on Google Maps</span>
-                <ExternalLink className="w-3 h-3 text-stone-400" />
-              </a>
-              <a
                 href={`tel:${cleanPhone}`}
                 className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-amber-100 hover:bg-amber-200 text-[#3E0C15] font-bold text-xs uppercase tracking-wider transition-all cursor-pointer"
               >
                 <Phone className="w-3.5 h-3.5" />
-                <span>Call Office</span>
+                <span>Call Helpline</span>
+              </a>
+              <a
+                href={`mailto:${email}`}
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-xs cursor-pointer"
+              >
+                <Mail className="w-3.5 h-3.5" />
+                <span>Email Support</span>
               </a>
             </div>
           </div>
@@ -456,10 +453,10 @@ const STATIC_PAGES_DATA = {
   "faq": {
     badge: "Customer Help Desk",
     title: "Frequently Asked Questions",
-    subtitle: "Answers to common inquiries regarding silk authenticity, orders, tailoring, and delivery.",
+    subtitle: "Answers to common inquiries regarding products, order tracking, shipping, and delivery.",
     render: (config) => {
-      const whatsapp = config?.contact?.whatsapp || config?.contact?.phone || "+91 82002 60300";
-      const email = config?.contact?.email || "mahasell360@gmail.com";
+      const whatsapp = config?.contact?.whatsapp || config?.contact?.phone || "+91 9770150015";
+      const email = config?.contact?.email || "info@mahasell.in";
       return (
         <div className="space-y-4 text-xs sm:text-sm text-stone-700">
           {[
@@ -468,16 +465,16 @@ const STATIC_PAGES_DATA = {
               a: "Yes. Every item is verified by our quality control inspection team. Verified authenticity seals and quality checks accompany each product."
             },
             {
-              q: "Do the sarees include fall and pico?",
-              a: "Yes! Complimentary high-quality cotton fall stitching and delicate rolled-hem pico are included with every single saree order at no extra charge."
+              q: "What categories and products are available on Maha Sell?",
+              a: "We offer trending, high-quality collections across Men's Wear, Women's Wear, Kids' Wear, and Footwear with mega discounts and wholesale value."
             },
             {
-              q: "How does custom blouse stitching work?",
-              a: "When selecting 'Custom Bridal Tailoring', you can provide your measurements online or connect with our master drapers via video call for personalized styling and neckline selection."
+              q: "How does delivery and order tracking work?",
+              a: "All orders are dispatched quickly via premium courier partners. You receive live SMS and tracking updates, and can track your order status anytime on our website."
             },
             {
               q: "Can I cancel or modify my order?",
-              a: `Orders can be modified or cancelled within 12 hours of placement before our looms dispatch the package. Simply contact our concierge on Call/WhatsApp at ${whatsapp} or email ${email}.`
+              a: `Orders can be modified or cancelled within 12 hours of placement before dispatch. Simply contact our support team on Call/WhatsApp at ${whatsapp} or email ${email}.`
             },
             {
               q: "What payment methods are accepted?",
@@ -559,16 +556,16 @@ const STATIC_PAGES_DATA = {
     title: "Visit Our Flagship Salons & Showrooms",
     subtitle: "Experience the tactile majesty of authentic Indian handlooms in person.",
     render: (config) => {
-      const whatsapp = config?.contact?.whatsapp || config?.contact?.phone || "+91 82002 60300";
-      const email = config?.contact?.email || "mahasell360@gmail.com";
-      const address = config?.contact?.address || "Hut No. 287, Mithi Khadi, Azad Chowk, Near Noorani Masjid, Limbayat, Surat, Gujarat - 394210";
+      const whatsapp = config?.contact?.whatsapp || config?.contact?.phone || "+91 9770150015";
+      const email = config?.contact?.email || "info@mahasell.in";
+      const address = config?.contact?.address || "Maha Sell India • Online Operations & Customer Support Desk";
       const hours = config?.contact?.workingHours || "10:00 AM – 9:00 PM (All Days)";
 
       return (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs sm:text-sm text-stone-700">
           <div className="p-6 bg-white rounded-3xl border border-amber-900/15 shadow-sm space-y-2 col-span-1 sm:col-span-2 bg-gradient-to-br from-white to-amber-50/40">
-            <span className="text-[10px] font-bold text-[#9E7D2E] uppercase tracking-wider">Maha Sell Headquarters &amp; Flagship Boutique</span>
-            <h4 className="font-serif-luxury text-lg font-bold text-stone-900">Maha Sell Main Corporate &amp; Retail Studio</h4>
+            <span className="text-[10px] font-bold text-[#9E7D2E] uppercase tracking-wider">Maha Sell Customer Operations &amp; Support Hub</span>
+            <h4 className="font-serif-luxury text-lg font-bold text-stone-900">Maha Sell Main Operations &amp; Support Desk</h4>
             <p className="text-stone-600">{address}</p>
             <p className="text-stone-500">Phone &amp; WhatsApp: {whatsapp} • Email: {email} • Hours: {hours}</p>
           </div>

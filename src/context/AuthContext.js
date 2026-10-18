@@ -12,6 +12,8 @@ export const useAuth = () => useContext(AuthContext);
 export const isEmailAdmin = (email = "") => {
   const clean = (email || "").toLowerCase().trim();
   return (
+    clean === "info@mahasell.in" ||
+    clean === "admin@mahasell.in" ||
     clean === "mahasell@gmail.com" ||
     clean === "mahasell360@gmail.com" ||
     clean === "admin@mahasell.com" ||

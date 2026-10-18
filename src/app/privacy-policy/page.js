@@ -91,7 +91,7 @@ export default function PrivacyPolicyPage() {
                 <span>1. Introduction &amp; Scope</span>
               </h2>
               <p>
-                This Privacy Policy describes how <strong>Maha Sell Pvt. Ltd.</strong> (&ldquo;Maha Sell&rdquo;, &ldquo;Company&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) collects, uses, shares, and protects information about you when you visit our website <strong>mahasell.com</strong>, utilize our online services, or purchase our products.
+                This Privacy Policy describes how <strong>Maha Sell Pvt. Ltd.</strong> (&ldquo;Maha Sell&rdquo;, &ldquo;Company&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) collects, uses, shares, and protects information about you when you visit our website <strong>mahasell.in</strong>, utilize our online services, or purchase our products.
               </p>
               <p>
                 By accessing or using our website, services, or making a purchase, you acknowledge and consent to the practices described in this policy.

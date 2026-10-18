@@ -41,16 +41,16 @@ function FacebookIcon({ className }) {
 
 export default function AdminSettingsPage() {
   const [storeName, setStoreName] = useState("Maha Sell");
-  const [supportPhone, setSupportPhone] = useState("+91 82002 60300");
-  const [whatsappNumber, setWhatsappNumber] = useState("+91 82002 60300");
-  const [supportEmail, setSupportEmail] = useState("mahasell360@gmail.com");
-  const [bridalEmail, setBridalEmail] = useState("mahasell360@gmail.com");
-  const [address, setAddress] = useState("Hut No. 287, Mithi Khadi, Azad Chowk, Near Noorani Masjid, Limbayat, Surat, Gujarat - 394210");
+  const [supportPhone, setSupportPhone] = useState("+91 9770150015");
+  const [whatsappNumber, setWhatsappNumber] = useState("+91 9770150015");
+  const [supportEmail, setSupportEmail] = useState("info@mahasell.in");
+  const [bridalEmail, setBridalEmail] = useState("info@mahasell.in");
+  const [address, setAddress] = useState("Maha Sell India • Online Operations & Customer Support Desk");
   const [workingHours, setWorkingHours] = useState("Open All 7 Days: 10:00 AM – 9:00 PM IST");
   
   // Social media URLs (Instagram & Facebook)
-  const [instagramUrl, setInstagramUrl] = useState("https://instagram.com/mahasell_official");
-  const [facebookUrl, setFacebookUrl] = useState("https://facebook.com/mahasell_official");
+  const [instagramUrl, setInstagramUrl] = useState("https://instagram.com/mahasell.in");
+  const [facebookUrl, setFacebookUrl] = useState("https://facebook.com/mahasell.in");
 
   // Policies
   const [freeShippingAbove, setFreeShippingAbove] = useState("5000");
@@ -356,7 +356,7 @@ service cloud.firestore {
                       value={supportPhone}
                       onChange={(e) => setSupportPhone(e.target.value)}
                       className="w-full bg-stone-50 border border-stone-200 rounded-xl pl-10 pr-3.5 py-2.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#3E0C15] focus:bg-white"
-                      placeholder="+91 82002 60300"
+                      placeholder="+91 9770150015"
                     />
                   </div>
                 </div>
@@ -374,7 +374,7 @@ service cloud.firestore {
                       value={whatsappNumber}
                       onChange={(e) => setWhatsappNumber(e.target.value)}
                       className="w-full bg-stone-50 border border-stone-200 rounded-xl pl-10 pr-3.5 py-2.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#3E0C15] focus:bg-white"
-                      placeholder="+91 82002 60300"
+                      placeholder="+91 9770150015"
                     />
                   </div>
                   <span className="text-[10px] text-stone-500 mt-1 block">Used for direct WhatsApp chat button on Contact Us and Footer</span>
@@ -393,7 +393,7 @@ service cloud.firestore {
                       value={supportEmail}
                       onChange={(e) => setSupportEmail(e.target.value)}
                       className="w-full bg-stone-50 border border-stone-200 rounded-xl pl-10 pr-3.5 py-2.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#3E0C15] focus:bg-white"
-                      placeholder="mahasell360@gmail.com"
+                      placeholder="info@mahasell.in"
                     />
                   </div>
                 </div>
@@ -429,7 +429,7 @@ service cloud.firestore {
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
                       className="w-full bg-stone-50 border border-stone-200 rounded-xl pl-10 pr-3.5 py-2.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#3E0C15] focus:bg-white leading-relaxed"
-                      placeholder="Hut No. 287, Mithi Khadi, Azad Chowk, Near Noorani Masjid, Limbayat, Surat, Gujarat - 394210"
+                      placeholder="Maha Sell India • Online Operations & Customer Support Desk"
                     />
                   </div>
                 </div>
@@ -469,7 +469,7 @@ service cloud.firestore {
                       value={instagramUrl}
                       onChange={(e) => setInstagramUrl(e.target.value)}
                       className="w-full bg-stone-50 border border-stone-200 rounded-xl pl-10 pr-3.5 py-2.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#3E0C15] focus:bg-white"
-                      placeholder="https://instagram.com/your_handle"
+                      placeholder="https://instagram.com/mahasell.in"
                     />
                   </div>
                 </div>
