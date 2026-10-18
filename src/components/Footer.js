@@ -173,12 +173,6 @@ export default function Footer({
                 >
                   CodeWebX
                 </a>
-                {" "}(<a 
-                  href="https://codewebx.in" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="hover:underline text-stone-400 hover:text-amber-300 transition-colors"
-                >codewebx.in</a>)
               </span>
             </p>
           </div>
