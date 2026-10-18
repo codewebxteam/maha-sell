@@ -397,7 +397,7 @@ export default function CartPage() {
                     </div>
 
                     <div className="flex justify-between text-stone-600">
-                      <span>Fall & Pico Finishing</span>
+                      <span>Premium Packaging</span>
                       <span className="font-semibold text-emerald-700 uppercase tracking-wider">Free (Included)</span>
                     </div>
 
@@ -406,7 +406,7 @@ export default function CartPage() {
                       <span className="text-2xl font-bold">₹{finalTotal.toLocaleString("en-IN")}</span>
                     </div>
                     <span className="text-[10px] text-stone-400 block -mt-1">
-                      (Inclusive of 5% GST & All Handloom Cess)
+                      (Inclusive of all applicable GST & taxes)
                     </span>
                   </div>
 
@@ -422,7 +422,7 @@ export default function CartPage() {
 
                   <div className="mt-4 flex items-center justify-center gap-2 text-[11px] text-stone-500">
                     <ShieldCheck className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                    <span>256-Bit SSL Encrypted Royal Checkout</span>
+                    <span>256-Bit SSL Encrypted Secure Checkout</span>
                   </div>
                 </div>
               </div>

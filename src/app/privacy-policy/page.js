@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -20,6 +18,19 @@ import {
   RefreshCw
 } from "lucide-react";
 import { SITE_CONFIG } from "@/data/siteConfig";
+
+export const metadata = {
+  title: "Privacy Policy | Maha Sell - Data Protection & Security",
+  description: "Read the official Maha Sell privacy policy. Learn how we protect your personal information, encrypt transactions, and respect your shopping privacy across India.",
+  alternates: {
+    canonical: "https://mahasell.in/privacy-policy",
+  },
+  openGraph: {
+    title: "Privacy Policy | Maha Sell",
+    description: "Read the official Maha Sell privacy policy and learn how we protect your personal information.",
+    url: "https://mahasell.in/privacy-policy",
+  },
+};
 
 export default function PrivacyPolicyPage() {
   const lastUpdated = "October 13, 2026";
@@ -50,7 +61,7 @@ export default function PrivacyPolicyPage() {
               Privacy &amp; Data Protection Policy
             </h1>
             <p className="text-xs sm:text-sm text-stone-600 max-w-2xl mx-auto leading-relaxed">
-              At <strong>{SITE_CONFIG.brandName}</strong>, your trust is as sacred as our handloom traditions. Here is how we collect, safeguard, encrypt, and respect your personal information.
+              At <strong>{SITE_CONFIG.brandName}</strong>, your trust is our highest priority. Here is how we collect, safeguard, encrypt, and respect your personal information.
             </p>
             <p className="text-[11px] text-stone-400 mt-2">
               Last Updated: {lastUpdated} • Effective Date: {lastUpdated}
@@ -112,9 +123,9 @@ export default function PrivacyPolicyPage() {
                   </span>
                 </div>
                 <div className="p-3.5 bg-stone-50 rounded-xl border border-stone-200">
-                  <strong className="text-stone-900 block font-semibold">B. Bespoke Tailoring &amp; Measurement Profiles</strong>
+                  <strong className="text-stone-900 block font-semibold">B. Shopping &amp; Sizing Preferences</strong>
                   <span className="text-stone-600 text-xs leading-relaxed block mt-0.5">
-                    Blouse stitching measurements (bust, waist, shoulder, armhole, neckline preferences) when custom tailoring options are commissioned.
+                    Apparel and footwear sizing selections, wishlist items, saved cart details, and shopping preferences to ensure perfect fit and product recommendations.
                   </span>
                 </div>
                 <div className="p-3.5 bg-stone-50 rounded-xl border border-stone-200">
@@ -139,11 +150,11 @@ export default function PrivacyPolicyPage() {
               </h2>
               <p>We use your personal data strictly for legitimate business operations:</p>
               <ul className="list-disc pl-5 space-y-1.5 text-stone-600">
-                <li><strong>Order Fulfillment:</strong> Processing transactions, weaving authentication, packaging, and dispatching sarees.</li>
-                <li><strong>Logistics &amp; Courier Delivery:</strong> Sharing recipient shipping details with trusted delivery partners (BlueDart, Delhivery, DHL Express).</li>
-                <li><strong>Customer Support &amp; Concierge:</strong> Answering sizing queries, blouse stitching consultation, and tracking support.</li>
+                <li><strong>Order Fulfillment:</strong> Processing transactions, warehouse packing, quality verification, and dispatching orders.</li>
+                <li><strong>Logistics &amp; Courier Delivery:</strong> Sharing recipient shipping details with trusted delivery partners (BlueDart, Delhivery, Express Surface).</li>
+                <li><strong>Customer Support:</strong> Answering sizing queries, order status inquiries, and express delivery tracking support.</li>
                 <li><strong>Order Updates &amp; Notifications:</strong> Transmitting automated order confirmations, dispatch tracking AWB numbers, and electronic invoices via SMS/Email/WhatsApp.</li>
-                <li><strong>Fraud Detection &amp; Security:</strong> Preventing fraudulent financial transactions and verifying high-value bridal commissions.</li>
+                <li><strong>Fraud Detection &amp; Security:</strong> Preventing fraudulent financial transactions and verifying suspicious orders.</li>
               </ul>
             </section>
 

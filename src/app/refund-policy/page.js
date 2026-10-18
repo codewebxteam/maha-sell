@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -21,6 +19,19 @@ import {
   CreditCard
 } from "lucide-react";
 import { SITE_CONFIG } from "@/data/siteConfig";
+
+export const metadata = {
+  title: "Refund, Return & Cancellation Policy | Maha Sell",
+  description: "Learn about Maha Sell's easy 7-day return, exchange, and cancellation policy. Fast refunds, doorstep pickups, and 100% customer satisfaction.",
+  alternates: {
+    canonical: "https://mahasell.in/refund-policy",
+  },
+  openGraph: {
+    title: "Refund & Cancellation Policy | Maha Sell",
+    description: "Learn about Maha Sell's easy 7-day return, exchange, and cancellation policy.",
+    url: "https://mahasell.in/refund-policy",
+  },
+};
 
 export default function RefundPolicyPage() {
   const lastUpdated = "October 13, 2026";
@@ -45,13 +56,13 @@ export default function RefundPolicyPage() {
           <div className="text-center mb-10 sm:mb-14">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100/70 text-emerald-900 text-[11px] font-bold uppercase tracking-widest border border-emerald-300/60 mb-3">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
-              <span>100% Patron Delight &amp; Trust Guarantee</span>
+              <span>100% Customer Delight &amp; Trust Guarantee</span>
             </div>
             <h1 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#2D0A10] leading-tight mb-3">
               Refund, Return &amp; Cancellation Policy
             </h1>
             <p className="text-xs sm:text-sm text-stone-600 max-w-2xl mx-auto leading-relaxed">
-              At <strong>{SITE_CONFIG.brandName}</strong>, our sacred commitment is your absolute delight. If a drape does not surpass your highest bridal expectations, we offer transparent cancellations, easy 7-day returns, and rapid 5–7 business days refunds.
+              At <strong>{SITE_CONFIG.brandName}</strong>, our commitment is your absolute delight. If an item does not meet your expectations, we offer transparent cancellations, easy 7-day returns, and rapid 5–7 business days refunds.
             </p>
             <p className="text-[11px] text-stone-400 mt-2">
               Last Updated: {lastUpdated} • Compliant with Consumer Protection (E-Commerce) Rules
@@ -115,13 +126,13 @@ export default function RefundPolicyPage() {
             {/* 2. 7-Day Return & Exchange Window */}
             <section className="space-y-3 border-t border-stone-200/60 pt-6">
               <h2 className="font-serif-luxury text-xl sm:text-2xl font-bold text-[#3E0C15]">
-                2. 7-Day Complimentary Return &amp; Exchange Window
+                2. 7-Day Easy Return &amp; Exchange Window
               </h2>
               <p>
                 We provide a hassle-free <strong>7-day return and exchange window</strong> starting from the exact date of physical doorstep delivery (as confirmed by courier tracking delivery status).
               </p>
               <p>
-                You may request an exchange for another heirloom saree or request a 100% monetary refund credited back to your original payment method.
+                You may request an exchange for another size or product, or request a 100% monetary refund credited back to your original payment method.
               </p>
             </section>
 
@@ -130,12 +141,12 @@ export default function RefundPolicyPage() {
               <h2 className="font-serif-luxury text-xl sm:text-2xl font-bold text-[#3E0C15]">
                 3. Return Eligibility Criteria
               </h2>
-              <p>To qualify for a full refund or exchange, the returned drape must meet our preservation standards:</p>
+              <p>To qualify for a full refund or exchange, the returned item must meet our condition standards:</p>
               <ul className="list-disc pl-5 space-y-1.5 text-stone-600">
-                <li><strong>Unworn &amp; Unwashed:</strong> The saree must be completely unworn, unstained, unperfumed, and folded in its original state.</li>
-                <li><strong>Original Tags &amp; Holograms:</strong> The individual <strong>Silk Mark Organisation of India (SMOI)</strong> certification hologram and brand tags must be firmly attached and untampered.</li>
-                <li><strong>Original Packaging:</strong> The product must be returned inside the protective wrap and Maha Sell presentation box.</li>
-                <li><strong>Complimentary Blouse Fabric:</strong> The running 0.8m unstitched matching blouse fabric piece attached to the saree must remain uncut and intact.</li>
+                <li><strong>Unworn &amp; Unwashed:</strong> The apparel or footwear must be completely unworn, unstained, unwashed, and folded or packed in its original condition.</li>
+                <li><strong>Original Tags Attached:</strong> Brand price tags, barcode labels, and authentication tags must be firmly attached and untampered.</li>
+                <li><strong>Original Packaging:</strong> The product must be returned inside the protective wrapping and Maha Sell packaging box/bag.</li>
+                <li><strong>All Accessories Included:</strong> Any free gifts, accessories, belts, or complementary items included with the product must be returned together.</li>
               </ul>
             </section>
 
@@ -144,16 +155,16 @@ export default function RefundPolicyPage() {
               <h2 className="font-serif-luxury text-xl sm:text-2xl font-bold text-[#3E0C15]">
                 4. Non-Returnable / Non-Refundable Exceptions
               </h2>
-              <p>The following items are exempt from returns and refunds:</p>
+              <p>The following items are exempt from returns and refunds for hygiene and policy reasons:</p>
               <div className="p-4 bg-amber-50/70 border border-amber-300/60 rounded-2xl space-y-2 text-stone-700">
                 <p>
-                  • <strong>Custom Tailored Blouses:</strong> Once our master drapers have cut and stitched a custom bridal blouse to your personalized body measurements, the blouse portion cannot be returned or refunded (unless there is a verified tailoring defect).
+                  • <strong>Custom Tailored / Altered Items:</strong> Products that have undergone custom alterations, stitching, or modifications.
                 </p>
                 <p>
-                  • <strong>Cut Fabrics:</strong> Saree running blouse pieces that have already been detached or scissor-cut by the customer.
+                  • <strong>Personal Hygiene Products:</strong> Innerwear, lingerie, socks, and personal care accessories cannot be returned once opened.
                 </p>
                 <p>
-                  • <strong>Clearance Vault Sales:</strong> Items marked with a non-returnable &ldquo;Final Clearance&rdquo; badge on rare warehouse events.
+                  • <strong>Clearance Sales:</strong> Items explicitly marked with a non-returnable &ldquo;Final Clearance&rdquo; tag during mega warehouse flash sales.
                 </p>
               </div>
             </section>
@@ -167,9 +178,9 @@ export default function RefundPolicyPage() {
                 Every parcel dispatched undergoes a rigorous multi-stage quality examination. In the unlikely event that your order arrives physically damaged in transit, or if an incorrect item was shipped:
               </p>
               <ul className="list-disc pl-5 space-y-1.5 text-stone-600">
-                <li>Please notify our concierge within <strong>48 hours of delivery</strong> via WhatsApp or email at <strong>{SITE_CONFIG.contact.email}</strong>.</li>
-                <li>Kindly share a brief unboxing video or photographs highlighting the courier outer box condition and the damage.</li>
-                <li>We will arrange a priority immediate reverse pickup and dispatch a brand-new identical replacement drape, or issue a 100% full refund as per your preference.</li>
+                <li>Please notify our support team within <strong>48 hours of delivery</strong> via WhatsApp or email at <strong>{SITE_CONFIG.contact.email}</strong>.</li>
+                <li>Kindly share a brief unboxing video or photographs highlighting the package outer condition and the defect.</li>
+                <li>We will arrange a priority immediate reverse pickup and dispatch a brand-new identical replacement, or issue a 100% full refund as per your preference.</li>
               </ul>
             </section>
 

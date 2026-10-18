@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -19,6 +17,19 @@ import {
   CreditCard
 } from "lucide-react";
 import { SITE_CONFIG } from "@/data/siteConfig";
+
+export const metadata = {
+  title: "Terms & Conditions | Maha Sell - Official Commercial Policy",
+  description: "Read the official Terms and Conditions of Maha Sell. Understand order policies, transparent pricing, nationwide shipping, and consumer rights.",
+  alternates: {
+    canonical: "https://mahasell.in/terms-and-conditions",
+  },
+  openGraph: {
+    title: "Terms & Conditions | Maha Sell",
+    description: "Official terms and conditions governing purchases and services at Maha Sell.",
+    url: "https://mahasell.in/terms-and-conditions",
+  },
+};
 
 export default function TermsAndConditionsPage() {
   const lastUpdated = "October 13, 2026";
@@ -49,7 +60,7 @@ export default function TermsAndConditionsPage() {
               Terms &amp; Conditions of Service
             </h1>
             <p className="text-xs sm:text-sm text-stone-600 max-w-2xl mx-auto leading-relaxed">
-              These terms govern your access, browsing, and purchase of handcrafted heritage sarees from <strong>{SITE_CONFIG.brandName}</strong>.
+              These terms govern your access, browsing, and purchase of fashion apparel, footwear, and accessories from <strong>{SITE_CONFIG.brandName}</strong>.
             </p>
             <p className="text-[11px] text-stone-400 mt-2">
               Last Updated: {lastUpdated} • Applicable Worldwide
@@ -112,19 +123,19 @@ export default function TermsAndConditionsPage() {
               </ul>
             </section>
 
-            {/* 3. Handcrafted Handloom Nature & Weaver Nuances */}
+            {/* 3. Product Descriptions & Quality Assurance */}
             <section className="space-y-3 border-t border-stone-200/60 pt-6">
               <h2 className="font-serif-luxury text-xl sm:text-2xl font-bold text-[#3E0C15]">
-                3. Handcrafted Nature of Handloom Silks
+                3. Product Authenticity &amp; Quality Standards
               </h2>
               <div className="p-4 bg-amber-50/70 border border-amber-300/60 rounded-2xl space-y-2">
-                <p className="font-bold text-[#3E0C15]">Authentic Artisan Disclaimer:</p>
+                <p className="font-bold text-[#3E0C15]">Quality &amp; Color Specifications:</p>
                 <p className="text-stone-700 text-xs sm:text-sm">
-                  Every product showcased at Maha Sell is curated with strict quality checks. For handloom and artisanal items:
+                  Every product showcased at Maha Sell undergoes multi-point quality inspections. For apparel and footwear items:
                 </p>
                 <ul className="list-disc pl-5 space-y-1 text-stone-600 text-xs sm:text-sm">
-                  <li>Slight variations in weft slubs, weaver knotting, and hand-block placements are natural signatures of handcrafting, not manufacturing defects.</li>
-                  <li>Photography colors may vary slightly depending on digital display calibration and screen brightness.</li>
+                  <li>Natural fabric textures, weave characteristics, and subtle finishes are integral to genuine manufacturing standards.</li>
+                  <li>Photography colors may vary slightly depending on digital display calibration, lighting conditions, and screen brightness.</li>
                 </ul>
               </div>
             </section>
@@ -135,7 +146,7 @@ export default function TermsAndConditionsPage() {
                 4. Pricing, Taxes &amp; Payment Gateway Terms
               </h2>
               <p>
-                All prices on the website are displayed in <strong>Indian National Rupees (INR)</strong> and are inclusive of applicable Goods and Services Tax (GST 5% on textiles).
+                All prices on the website are displayed in <strong>Indian National Rupees (INR)</strong> and are inclusive of applicable Goods and Services Tax (GST).
               </p>
               <div className="space-y-2.5 text-stone-600">
                 <p>
@@ -145,7 +156,7 @@ export default function TermsAndConditionsPage() {
                   • <strong>Payment Authorization:</strong> By initiating a payment, you confirm that the card, bank account, or UPI ID used is rightfully yours. In case of payment gateway failures where funds are debited from your bank but order is not generated, funds are automatically reversed by your issuing bank within 3 to 5 working days.
                 </p>
                 <p>
-                  • <strong>Cash on Delivery (COD):</strong> COD is available on select pincodes across India and may require mobile OTP verification before dispatch. High-value bridal orders above ₹50,000 may require partial prepaid booking confirmation.
+                  • <strong>Cash on Delivery (COD):</strong> COD is available on select pincodes across India and may require mobile OTP verification before dispatch. High-value bulk orders may require partial prepaid booking confirmation.
                 </p>
                 <p>
                   • <strong>International Tariffs:</strong> International orders shipped outside India may be subject to local customs duties and VAT determined by the destination country&apos;s customs authority. These charges are the recipient&apos;s responsibility.
@@ -162,7 +173,7 @@ export default function TermsAndConditionsPage() {
                 Receipt of an electronic order confirmation does not signify our final acceptance of your order. Maha Sell reserves the right at any time after receipt of your order to accept, decline, or limit order quantities for any reason, including:
               </p>
               <ul className="list-disc pl-5 space-y-1 text-stone-600">
-                <li>Unavailability of rare raw handloom silk yardage.</li>
+                <li>Unavailability of inventory stock or supplier batch variations.</li>
                 <li>Inaccuracies or typographical errors in product pricing.</li>
                 <li>Inability to obtain payment authorization or suspected fraudulent activity flagged by payment risk engines.</li>
               </ul>

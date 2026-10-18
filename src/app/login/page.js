@@ -103,7 +103,7 @@ function LoginForm() {
 
       // Check admin status:
       // Either role was explicitly set to 'admin' in Firestore,
-      // or the email matches designated admin emails (admin@suratbazar.com, suratbazar360@gmail.com, or admin@*)
+      // or the email matches designated admin emails (info@mahasell.in, admin@mahasell.in, or admin@*)
       const isAdminUser = userRole === "admin" || isEmailAdmin(user.email);
 
       if (isAdminUser) {
