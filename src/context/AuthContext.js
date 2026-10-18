@@ -49,6 +49,7 @@ export const AuthProvider = ({ children }) => {
         const isUserAdmin = 
           determinedRole === "admin" || 
           isEmailAdmin(firebaseUser.email) ||
+          firebaseUser.uid === "DQDS3xO8UeZj0SymUiYkgnfrf4s2" ||
           firebaseUser.uid === "iwFl7PRB7RXwnnoz0tMbYKZAzC";
 
         if (isUserAdmin) {

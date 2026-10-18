@@ -11,6 +11,7 @@ export default function AdminRoute({ children }) {
   const userEmail = (user?.email || "").toLowerCase().trim();
   const isAdmin = 
     role === "admin" ||
+    user?.uid === "DQDS3xO8UeZj0SymUiYkgnfrf4s2" ||
     user?.uid === "iwFl7PRB7RXwnnoz0tMbYKZAzC" ||
     userEmail === "info@mahasell.in" ||
     userEmail === "admin@mahasell.in" ||
