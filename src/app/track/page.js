@@ -91,6 +91,10 @@ function TrackOrderContent() {
     performTracking(orderId);
   };
 
+  const orderStatus = (order?.status || "").toLowerCase().trim();
+  const isCancelled = orderStatus.includes("cancel");
+  const isDelivered = orderStatus.includes("deliver");
+
   return (
     <>
       <Navbar />
@@ -381,7 +385,7 @@ function TrackOrderContent() {
                 </Link>
 
                 <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto justify-end">
-                  {!isCancelled && !(order.status || "").toLowerCase().includes("deliver") && (
+                  {!isCancelled && !isDelivered && (
                     <Link
                       href={`/account/orders/${order.id}`}
                       className="w-full sm:w-auto px-5 py-2.5 rounded-full border border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold transition-all text-center"
@@ -392,27 +396,27 @@ function TrackOrderContent() {
 
                   <Link
                     href={
-                      (order.status || "").toLowerCase().includes("deliver")
+                      isDelivered
                         ? `/account/orders/${order.id}/invoice`
                         : `/account/orders/${order.id}`
                     }
                     target={
-                      (order.status || "").toLowerCase().includes("deliver") ? "_blank" : "_self"
+                      isDelivered ? "_blank" : "_self"
                     }
                     className={`w-full sm:w-auto px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all text-center ${
-                      (order.status || "").toLowerCase().includes("deliver")
+                      isDelivered
                         ? "bg-[#3E0C15] hover:bg-[#571520] text-[#F7EFCF] shadow"
                         : "bg-stone-900 hover:bg-stone-800 text-white"
                     }`}
                   >
-                    {(order.status || "").toLowerCase().includes("deliver")
+                    {isDelivered
                       ? "View & Print Official Invoice"
                       : "View Order Details"}
                   </Link>
                 </div>
               </div>
 
-              {order.status?.toLowerCase() !== "delivered" && (
+              {!isDelivered && (
                 <p className="text-center text-[11px] text-amber-800 font-medium pt-1">
                   ℹ️ Note: Official GST Tax Invoice will be unlocked for download once parcel is marked as &apos;Delivered&apos;.
                 </p>
