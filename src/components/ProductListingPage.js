@@ -47,7 +47,9 @@ export default function ProductListingPage({
     async function fetchProducts() {
       try {
         const querySnapshot = await getDocs(collection(db, "products"));
-        const fetchedProducts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const fetchedProducts = querySnapshot.docs
+          .map(doc => ({ id: doc.id, ...doc.data() }))
+          .filter(p => p.isVerified !== false && p.verificationStatus !== "rejected" && p.status !== "pending_verification");
         setProducts(fetchedProducts);
         
         const catSnapshot = await getDocs(collection(db, "categories"));
@@ -214,8 +216,10 @@ export default function ProductListingPage({
       if (selectedAvailability === "limited" && (item.stock > 5 || item.stock <= 0)) return false;
 
       // 8. Facet 7: Discount
-      const itemDiscount = item.originalPrice && item.originalPrice > item.price
-        ? Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)
+      const p = Number(item.price) || 0;
+      const op = Number(item.originalPrice) || 0;
+      const itemDiscount = (op > p && op > 0)
+        ? Math.round(((op - p) / op) * 100)
         : 0;
       if (selectedMinDiscount > 0 && itemDiscount < selectedMinDiscount) return false;
 

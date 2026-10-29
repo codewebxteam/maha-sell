@@ -107,6 +107,7 @@ function AddProductForm() {
               occasions: data.occasions || [],
               collections: data.collections || [],
               price: data.price ? data.price.toString() : "",
+              originalPrice: data.originalPrice ? data.originalPrice.toString() : "",
               stock: data.stock !== undefined ? data.stock.toString() : "",
               colorName: data.colorName || "",
               images: data.images || [],
@@ -143,6 +144,7 @@ function AddProductForm() {
     occasions: [],
     collections: [],
     price: "",
+    originalPrice: "",
     stock: "",
     colorName: "",
     images: [],
@@ -180,12 +182,16 @@ function AddProductForm() {
     setIsSubmitting(true);
     
     try {
+      const parsedPrice = Number(formData.price);
+      const parsedOriginal = formData.originalPrice ? Number(formData.originalPrice) : null;
+
       if (editId) {
         // Update existing product
         const docRef = doc(db, "products", editId);
         await updateDoc(docRef, {
           ...formData,
-          price: Number(formData.price),
+          price: parsedPrice,
+          originalPrice: parsedOriginal,
           stock: Number(formData.stock),
           updatedAt: serverTimestamp()
         });
@@ -193,7 +199,8 @@ function AddProductForm() {
         // Add new product
         await addDoc(collection(db, "products"), {
           ...formData,
-          price: Number(formData.price),
+          price: parsedPrice,
+          originalPrice: parsedOriginal,
           stock: Number(formData.stock),
           createdAt: serverTimestamp()
         });
@@ -310,24 +317,48 @@ function AddProductForm() {
           {/* Section 2: Pricing & Inventory */}
           <div className="pt-4 border-t border-stone-100 space-y-4">
             <h3 className="font-serif font-bold text-base text-stone-900 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#C5832B]"></span> Pricing & Stock
+              <span className="w-2 h-2 rounded-full bg-[#C5832B]"></span> Pricing, MRP &amp; Stock
             </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {/* 1. MRP / Cut Price */}
               <div>
-                <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
-                  Selling Price (₹) *
+                <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+                  <span>MRP / Cut Price (₹)</span>
+                  <span className="text-[10px] text-stone-400 font-normal">Strikethrough Price</span>
+                </label>
+                <input
+                  type="number"
+                  placeholder="e.g. 2999"
+                  value={formData.originalPrice}
+                  onChange={(e) => setFormData({ ...formData, originalPrice: e.target.value })}
+                  className="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#C5832B]/50 placeholder:text-stone-400"
+                />
+                <span className="text-[11px] text-stone-400 mt-1 block">
+                  Ye price customer ko cut (line-through) dikhega (₹2,999)
+                </span>
+              </div>
+
+              {/* 2. Selling Price */}
+              <div>
+                <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+                  <span>Selling Price (₹) *</span>
+                  <span className="text-[10px] text-emerald-600 font-bold">Customer Price</span>
                 </label>
                 <input
                   type="number"
                   required
-                  placeholder="e.g. 24999"
+                  placeholder="e.g. 1859"
                   value={formData.price}
                   onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                  className="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#C5832B]/50 placeholder:text-stone-400"
+                  className="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-sm font-bold text-[#3E0C15] focus:outline-none focus:ring-2 focus:ring-[#C5832B]/50 placeholder:text-stone-400"
                 />
+                <span className="text-[11px] text-stone-400 mt-1 block">
+                  Ye actual price hai jo customer pay karega (₹1,859)
+                </span>
               </div>
 
+              {/* 3. Available Stock */}
               <div>
                 <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
                   Available Quantity (Stock) *
@@ -340,8 +371,34 @@ function AddProductForm() {
                   onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
                   className="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#C5832B]/50 placeholder:text-stone-400"
                 />
+                <span className="text-[11px] text-stone-400 mt-1 block">
+                  Inventory units count
+                </span>
               </div>
             </div>
+
+            {/* Live Discount Calculator Preview */}
+            {formData.originalPrice && formData.price && Number(formData.originalPrice) > Number(formData.price) && (
+              <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-950 flex flex-wrap items-center justify-between gap-3 shadow-2xs animate-in fade-in">
+                <div className="flex items-center gap-2.5">
+                  <span className="px-2.5 py-1 rounded-full bg-emerald-600 text-white font-extrabold text-xs tracking-wider shadow-xs">
+                    {Math.round(((Number(formData.originalPrice) - Number(formData.price)) / Number(formData.originalPrice)) * 100)}% OFF
+                  </span>
+                  <div className="text-xs">
+                    <span className="text-stone-500 line-through mr-1.5 font-semibold">
+                      ₹{Number(formData.originalPrice).toLocaleString("en-IN")}
+                    </span>
+                    <span className="text-base font-bold text-[#3E0C15]">
+                      ₹{Number(formData.price).toLocaleString("en-IN")}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="text-xs font-bold text-emerald-800">
+                  Customer Savings: ₹{(Number(formData.originalPrice) - Number(formData.price)).toLocaleString("en-IN")} Instant Discount
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Section 3: Fabric, Occasion & Category */}

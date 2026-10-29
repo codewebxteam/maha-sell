@@ -24,6 +24,9 @@ export const isEmailAdmin = (email = "") => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [role, setRole] = useState(null);
+  const [partnerStatus, setPartnerStatus] = useState(null);
+  const [shopName, setShopName] = useState("");
+  const [partnerData, setPartnerData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -33,13 +36,22 @@ export const AuthProvider = ({ children }) => {
         setUser(firebaseUser);
         
         let determinedRole = "customer";
+        let determinedPartnerStatus = null;
+        let determinedShopName = "";
+        let profileData = null;
+
         try {
           // Fetch user role from Firestore
           const userDocRef = doc(db, "users", firebaseUser.uid);
           const userDoc = await getDoc(userDocRef);
           
           if (userDoc.exists()) {
-            determinedRole = (userDoc.data().role || "customer").toLowerCase();
+            profileData = userDoc.data();
+            determinedRole = (profileData.role || "customer").toLowerCase();
+            if (determinedRole === "partner") {
+              determinedPartnerStatus = (profileData.partnerStatus || "pending").toLowerCase();
+              determinedShopName = profileData.shopName || "";
+            }
           }
         } catch (error) {
           console.warn("Notice: reading user role from Firestore:", error);
@@ -65,9 +77,15 @@ export const AuthProvider = ({ children }) => {
         }
 
         setRole(determinedRole);
+        setPartnerStatus(determinedPartnerStatus);
+        setShopName(determinedShopName);
+        setPartnerData(profileData);
       } else {
         setUser(null);
         setRole(null);
+        setPartnerStatus(null);
+        setShopName("");
+        setPartnerData(null);
       }
       
       setLoading(false);
@@ -76,8 +94,22 @@ export const AuthProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
+  const isAdmin = role === "admin" || (user && isEmailAdmin(user.email));
+  const isPartner = role === "partner";
+  const isPartnerApproved = isPartner && partnerStatus === "approved";
+
   return (
-    <AuthContext.Provider value={{ user, role, loading }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      role, 
+      partnerStatus, 
+      shopName, 
+      partnerData, 
+      isAdmin, 
+      isPartner, 
+      isPartnerApproved, 
+      loading 
+    }}>
       {children}
     </AuthContext.Provider>
   );

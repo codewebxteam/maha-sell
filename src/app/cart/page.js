@@ -195,8 +195,19 @@ export default function CartPage() {
                           </div>
 
                           {/* Unit Price */}
-                          <div className="text-xs text-stone-600 mt-1.5">
-                            Unit Price: <span className="font-bold text-[#3E0C15]">₹{itemUnitPrice.toLocaleString("en-IN")}</span>
+                          <div className="text-xs text-stone-600 mt-1.5 flex items-baseline flex-wrap gap-1.5">
+                            <span>Unit Price:</span>
+                            <span className="font-bold text-[#3E0C15]">₹{Number(itemUnitPrice).toLocaleString("en-IN")}</span>
+                            {item.originalPrice && Number(item.originalPrice) > Number(itemUnitPrice) && (
+                              <>
+                                <span className="text-[11px] text-stone-400 line-through">
+                                  ₹{Number(item.originalPrice).toLocaleString("en-IN")}
+                                </span>
+                                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">
+                                  {Math.round(((Number(item.originalPrice) - Number(itemUnitPrice)) / Number(item.originalPrice)) * 100)}% OFF
+                                </span>
+                              </>
+                            )}
                           </div>
 
                           {/* Mobile Controls */}

@@ -16,7 +16,10 @@ import {
   Tag,
   Minus,
   Boxes,
-  PackageOpen
+  PackageOpen,
+  Store,
+  Clock,
+  ShieldCheck
 } from "lucide-react";
 import { collection, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
@@ -304,6 +307,23 @@ export default function AdminProductsPage() {
                           <div className="text-[11px] text-stone-400 font-mono">
                             SKU: {product.id?.toUpperCase()}
                           </div>
+                          {product.sellerShopName && (
+                            <div className="mt-1 flex items-center gap-1.5 flex-wrap">
+                              <span className="inline-flex items-center gap-1 text-[10px] text-amber-900 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded font-medium">
+                                <Store className="w-3 h-3 text-[#C5832B]" />
+                                <span>Sold by: <strong>{product.sellerShopName}</strong></span>
+                              </span>
+                              {product.isVerified === false && (
+                                <Link 
+                                  href="/admin/verifications"
+                                  className="inline-flex items-center gap-1 text-[10px] text-amber-800 bg-amber-100/80 px-1.5 py-0.5 rounded font-bold hover:underline"
+                                >
+                                  <Clock className="w-3 h-3" />
+                                  <span>Pending Verification</span>
+                                </Link>
+                              )}
+                            </div>
+                          )}
                         </div>
                       </div>
                     </td>
@@ -316,14 +336,28 @@ export default function AdminProductsPage() {
 
                     {/* Pricing */}
                     <td className="py-3.5 px-4">
-                      <div className="font-bold text-stone-900">
-                        ₹{product.price?.toLocaleString("en-IN")}
-                      </div>
-                      {product.originalPrice && (
-                        <div className="text-[11px] text-stone-400 line-through">
-                          ₹{product.originalPrice?.toLocaleString("en-IN")}
-                        </div>
-                      )}
+                      {(() => {
+                        const p = Number(product.price) || 0;
+                        const op = Number(product.originalPrice) || 0;
+                        const disc = op > p ? Math.round(((op - p) / op) * 100) : 0;
+                        return (
+                          <div>
+                            <div className="font-bold text-stone-900 text-sm">
+                              ₹{p.toLocaleString("en-IN")}
+                            </div>
+                            {op > p && (
+                              <div className="flex items-center gap-1.5 text-[11px] mt-0.5">
+                                <span className="text-stone-400 line-through">
+                                  ₹{op.toLocaleString("en-IN")}
+                                </span>
+                                <span className="font-bold text-emerald-700 bg-emerald-50 px-1 rounded">
+                                  {disc}% off
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })()}
                     </td>
 
                     {/* Stock Status */}

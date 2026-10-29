@@ -30,4 +30,4 @@ if (typeof window !== "undefined") {
     isSupported().then((yes) => yes ? analytics = getAnalytics(app) : null);
 }
 
-export { app, analytics };
+export { app, analytics, firebaseConfig };

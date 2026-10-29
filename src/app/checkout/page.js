@@ -954,7 +954,7 @@ export default function CheckoutPage() {
                                 id="checkout-state"
                                 value={formData.state}
                                 onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                                placeholder="e.g. Gujarat"
+                                placeholder="e.g. Uttar Pradesh"
                                 className="w-full bg-[#FAF7F2] border border-stone-300 rounded-xl px-4 py-3 text-xs text-stone-900 focus:outline-none focus:border-[#3E0C15]"
                               />
                             </div>

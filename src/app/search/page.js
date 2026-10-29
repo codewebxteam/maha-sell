@@ -23,7 +23,9 @@ function SearchContent() {
     async function fetchProducts() {
       try {
         const querySnapshot = await getDocs(collection(db, "products"));
-        const fetchedProducts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const fetchedProducts = querySnapshot.docs
+          .map(doc => ({ id: doc.id, ...doc.data() }))
+          .filter(p => p.isVerified !== false && p.verificationStatus !== "rejected" && p.status !== "pending_verification");
         setProducts(fetchedProducts);
       } catch (error) {
         console.error("Error fetching products:", error);

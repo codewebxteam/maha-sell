@@ -8,7 +8,9 @@ import {
   Phone,
   Mail,
   MapPin,
-  MessageCircle
+  MessageCircle,
+  Store,
+  ArrowRight
 } from "lucide-react";
 import { FOOTER_COLUMNS } from "@/data/navigation";
 import { SITE_CONFIG } from "@/data/siteConfig";
@@ -99,6 +101,36 @@ export default function Footer({
               <span>{config.contact?.email || "info@mahasell.in"}</span>
             </a>
           </div>
+        </div>
+
+        {/* Want to sell your products? Partner Registration Banner */}
+        <div className="mb-12 p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-[#2A090F] via-[#3E0C15] to-[#22060B] border border-amber-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 shadow-xl relative overflow-hidden">
+          <div className="flex items-center gap-4 relative z-10">
+            <div className="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 shrink-0 shadow-inner">
+              <Store className="w-6 h-6 text-[#E8C574]" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="font-serif text-base sm:text-lg font-bold text-[#FDFBF7] tracking-wide">
+                  Want to sell your products on Maha Sell?
+                </h3>
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  Seller Program
+                </span>
+              </div>
+              <p className="text-stone-300 text-xs mt-1 leading-relaxed max-w-xl">
+                Partner with us to list your collection directly on Maha Sell. Register your shop with full details and get fast admin verification.
+              </p>
+            </div>
+          </div>
+
+          <Link
+            href="/partner/register"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#E8C574] via-[#D4AF37] to-[#C5832B] hover:brightness-110 text-stone-950 font-bold text-xs uppercase tracking-wider transition-all shadow-lg active:scale-95 cursor-pointer shrink-0 z-10"
+          >
+            <span>Register as Partner / Shop</span>
+            <ArrowRight className="w-4 h-4 text-stone-950" />
+          </Link>
         </div>
 
         {/* 4-Column Balanced Grid Layout: SHOP | CUSTOMER CARE | ABOUT & LEGAL | FOLLOW US */}

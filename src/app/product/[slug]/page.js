@@ -34,7 +34,8 @@ import {
   Copy,
   Maximize2,
   ZoomOut,
-  Minimize2
+  Minimize2,
+  Store
 } from "lucide-react";
 import { useCartWishlist } from "@/context/CartWishlistContext";
 import Navbar from "@/components/Navbar";
@@ -43,6 +44,7 @@ import ProductCard from "@/components/ProductCard";
 import { collection, query, where, getDocs, limit } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { getPromotionsData, DEFAULT_COUPONS } from "@/lib/promotions";
+import { getProductColors } from "@/lib/colorUtils";
 
 export default function ProductDetailPage({ params }) {
   const unwrappedParams = use(params);
@@ -60,7 +62,8 @@ export default function ProductDetailPage({ params }) {
         const snap = await getDocs(q);
         if (!snap.empty) {
           const docData = snap.docs[0].data();
-          setProduct({ id: snap.docs[0].id, ...docData });
+          const isPendingVerif = docData.isVerified === false && docData.verificationStatus !== "approved";
+          setProduct({ id: snap.docs[0].id, ...docData, isPreviewUnverified: isPendingVerif });
           
           // Fetch related (random or same category, here just fetching 4 docs)
           const relQ = query(collection(db, "products"), limit(4));
@@ -137,7 +140,7 @@ export default function ProductDetailPage({ params }) {
   // Purchasing & Customization States
   const [quantity, setQuantity] = useState(1);
   const [blouseOption, setBlouseOption] = useState("unstitched");
-  const [activeColor, setActiveColor] = useState(product?.colorName || "Primary");
+  const [selectedColorState, setSelectedColorState] = useState("");
   const [addedToast, setAddedToast] = useState(false);
 
 
@@ -194,13 +197,13 @@ export default function ProductDetailPage({ params }) {
     return notFound();
   }
 
-  const discountPercent = product.originalPrice 
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+  const currentPrice = Number(product.price) || 0;
+  const originalPrice = Number(product.originalPrice) || 0;
+  const discountPercent = (originalPrice > currentPrice && originalPrice > 0)
+    ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100)
     : 0;
 
-  const savingsAmount = product.originalPrice ? product.originalPrice - product.price : 0;
-
-  const currentPrice = product.price;
+  const savingsAmount = originalPrice > currentPrice ? originalPrice - currentPrice : 0;
 
   // Zoom Mouse Movement Handler (Desktop)
   const handleMouseMove = (e) => {
@@ -278,13 +281,9 @@ export default function ProductDetailPage({ params }) {
     router.push("/checkout");
   };
 
-  // Color variants for demo
-  const variantColors = [
-    { name: product.colorName || "Primary Color", hex: product.colorHex || "#3E0C15" },
-    { name: "Royal Wine", hex: "#4A0E17" },
-    { name: "Midnight Navy", hex: "#1A2A6C" },
-    { name: "Antique Gold", hex: "#D4AF37" },
-  ];
+  // Dynamic product colors extracted strictly from product data (no hardcoded demo colors)
+  const variantColors = getProductColors(product);
+  const activeColor = selectedColorState || variantColors[0]?.name || product?.colorName || "";
 
   return (
     <>
@@ -306,6 +305,23 @@ export default function ProductDetailPage({ params }) {
             <span className="text-[#3E0C15] font-semibold truncate max-w-[180px] sm:max-w-none">{product.name}</span>
           </nav>
         </div>
+
+        {/* Unverified Partner Product Notice Banner */}
+        {product.isPreviewUnverified && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 mb-3">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-950 text-xs flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5">
+                <Clock className="w-4 h-4 text-amber-700 shrink-0" />
+                <span>
+                  <strong>Partner Preview Mode:</strong> This item is currently undergoing Maha Sell Admin Verification (15% platform commission review) before becoming publicly live for all customers.
+                </span>
+              </div>
+              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-amber-200/80 text-amber-900 border border-amber-300">
+                Pending Approval
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* 2. Main PDP Two-Column Grid (Gallery Left, Product Information Right) */}
         <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-12 py-2 sm:py-6">
@@ -519,13 +535,13 @@ export default function ProductDetailPage({ params }) {
                     <span className="text-2xl sm:text-3xl font-bold text-[#3E0C15]">
                       ₹{currentPrice.toLocaleString("en-IN")}
                     </span>
-                    {product.originalPrice && (
-                      <span className="text-xs sm:text-base text-stone-400 line-through">
-                        ₹{product.originalPrice.toLocaleString("en-IN")}
+                    {originalPrice > currentPrice && (
+                      <span className="text-sm sm:text-base text-stone-400 line-through font-normal">
+                        ₹{originalPrice.toLocaleString("en-IN")}
                       </span>
                     )}
                     {discountPercent > 0 && (
-                      <span className="text-[11px] sm:text-xs font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full whitespace-nowrap">
+                      <span className="text-[11px] sm:text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-full whitespace-nowrap border border-emerald-300">
                         {discountPercent}% OFF (Save ₹{savingsAmount.toLocaleString("en-IN")})
                       </span>
                     )}
@@ -541,30 +557,63 @@ export default function ProductDetailPage({ params }) {
                 </span>
               </div>
 
-              {/* Color / Variant Swatch Selector */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs uppercase tracking-wider font-bold text-stone-900">
-                    Colour Palette: <span className="font-normal text-amber-800">{activeColor}</span>
-                  </label>
+              {/* Partner Seller / Merchant Details (if partner listed) */}
+              {product.sellerShopName && (
+                <div className="flex items-center justify-between p-3 sm:p-3.5 rounded-2xl bg-amber-50/60 border border-amber-900/10 shadow-2xs">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-xl bg-[#571520] text-[#E8C574] flex items-center justify-center shrink-0">
+                      <Store className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] text-stone-400 uppercase tracking-wider font-semibold block leading-tight">
+                        Merchant / Seller
+                      </span>
+                      <span className="text-xs sm:text-sm font-bold text-stone-900 leading-tight block">
+                        {product.sellerShopName}
+                      </span>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100 border border-emerald-200/60 px-2.5 py-1 rounded-full flex items-center gap-1 shrink-0">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
+                    <span>Verified Partner</span>
+                  </span>
                 </div>
-                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                  {variantColors.map((col, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setActiveColor(col.name)}
-                      className={`group flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs transition-all cursor-pointer ${
-                        activeColor === col.name
-                          ? "border-[#3E0C15] bg-white ring-2 ring-[#3E0C15]/20 font-bold shadow-sm"
-                          : "border-stone-200 bg-white/60 hover:bg-white text-stone-700"
-                      }`}
-                    >
-                      <span className="w-3.5 h-3.5 rounded-full shadow-inner shrink-0" style={{ backgroundColor: col.hex }} />
-                      <span className="whitespace-nowrap">{col.name}</span>
-                    </button>
-                  ))}
+              )}
+
+              {/* Color / Variant Swatch Selector (Only shown if real colors are assigned to this product) */}
+              {variantColors.length > 0 && (
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-xs uppercase tracking-wider font-bold text-stone-900">
+                      Colour: <span className="font-semibold text-amber-900">{activeColor}</span>
+                    </label>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                    {variantColors.map((col, i) => {
+                      const isGrad = col.hex?.includes("gradient");
+                      const isSelected = activeColor === col.name;
+                      return (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => setSelectedColorState(col.name)}
+                          className={`group flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs transition-all cursor-pointer ${
+                            isSelected
+                              ? "border-[#3E0C15] bg-white ring-2 ring-[#3E0C15]/20 font-bold shadow-xs text-stone-900"
+                              : "border-stone-200 bg-white/70 hover:bg-white text-stone-700"
+                          }`}
+                        >
+                          <span 
+                            className="w-3.5 h-3.5 rounded-full shadow-inner shrink-0 border border-black/10" 
+                            style={isGrad ? { background: col.hex } : { backgroundColor: col.hex }} 
+                          />
+                          <span className="whitespace-nowrap font-medium">{col.name}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
 
 
               {/* Quantity, Add to Bag & Buy Now CTAs (Desktop / Large View) */}

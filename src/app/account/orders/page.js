@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Package, ArrowLeft, ChevronRight, ExternalLink, Truck, CheckCircle2 } from "lucide-react";
+import { Package, ArrowLeft, ChevronRight, ExternalLink, Truck, CheckCircle2, FileText } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useAuth } from "@/context/AuthContext";
@@ -161,6 +161,22 @@ export default function OrdersPage() {
                             </span>
                           );
                         })()}
+                        {s.includes("deliver") && (
+                          <Link 
+                            href={`/account/orders/${order.id}/invoice`} 
+                            target="_blank"
+                            onClick={() => {
+                              try {
+                                sessionStorage.setItem("mahasell_view_order", JSON.stringify(order));
+                              } catch (e) {}
+                            }}
+                            className="px-3.5 py-1.5 rounded-full border border-stone-300 hover:border-emerald-600 hover:bg-emerald-50 text-stone-800 hover:text-emerald-950 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-xs bg-white"
+                            title="Download official Flipkart-style Tax Invoice"
+                          >
+                            <FileText className="w-3.5 h-3.5 text-emerald-700" />
+                            <span>Tax Invoice</span>
+                          </Link>
+                        )}
                         <Link 
                           href={`/account/orders/${order.id}`} 
                           onClick={() => {

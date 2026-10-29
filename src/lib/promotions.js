@@ -137,13 +137,16 @@ export async function getPromotionsData() {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const data = docSnap.data();
-      const rawCoupons = Array.isArray(data.coupons) ? data.coupons : DEFAULT_COUPONS;
+      const rawCoupons = Array.isArray(data.coupons) 
+        ? data.coupons 
+        : (data.hasCustomData ? [] : DEFAULT_COUPONS);
       const normalizedCoupons = rawCoupons.map(normalizeCoupon).filter(Boolean);
       const announcementText = data.announcementText || DEFAULT_ANNOUNCEMENT;
 
       const result = {
         coupons: normalizedCoupons,
         announcementText,
+        hasCustomData: Boolean(data.hasCustomData),
       };
 
       if (typeof window !== "undefined") {
@@ -161,9 +164,9 @@ export async function getPromotionsData() {
     console.warn("Notice: Fetching promotions from Firestore:", err?.message || err);
   }
 
-  if (cached && Array.isArray(cached.coupons)) {
+  if (cached && (Array.isArray(cached.coupons) || cached.hasCustomData)) {
     return {
-      coupons: cached.coupons.map(normalizeCoupon).filter(Boolean),
+      coupons: Array.isArray(cached.coupons) ? cached.coupons.map(normalizeCoupon).filter(Boolean) : [],
       announcementText: cached.announcementText || DEFAULT_ANNOUNCEMENT,
     };
   }

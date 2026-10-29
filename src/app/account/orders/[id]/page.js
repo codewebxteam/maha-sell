@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import FlipkartInvoice from "@/components/FlipkartInvoice";
 import { doc, getDoc, collection, query, where, getDocs, limit } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuth } from "@/context/AuthContext";
@@ -57,6 +58,7 @@ export default function OrderDetailPage() {
   const [loading, setLoading] = useState(() => !order);
   const [error, setError] = useState(null);
   const [showInvoiceWarning, setShowInvoiceWarning] = useState(false);
+  const [showInvoiceModal, setShowInvoiceModal] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -236,7 +238,7 @@ export default function OrderDetailPage() {
       setShowInvoiceWarning(true);
       return;
     }
-    window.print();
+    setShowInvoiceModal(true);
   };
 
   // Address fields
@@ -309,15 +311,15 @@ export default function OrderDetailPage() {
                   onClick={handlePrintInvoice}
                   className={`px-4 py-2 rounded-full border text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
                     isDelivered 
-                      ? "border-stone-300 hover:border-stone-800 text-stone-800 bg-stone-50 hover:bg-stone-100" 
+                      ? "border-emerald-600 hover:bg-emerald-50 text-emerald-900 bg-emerald-50/50 shadow-xs" 
                       : "border-amber-300 text-amber-900 bg-amber-50 hover:bg-amber-100"
                   }`}
-                  title={isDelivered ? "Print official invoice" : "Invoice available only after delivery"}
+                  title={isDelivered ? "Download or print official Flipkart-style GST invoice" : "Invoice available only after delivery"}
                 >
                   {isDelivered ? (
                     <>
-                      <Printer className="w-3.5 h-3.5" />
-                      <span>Print Invoice</span>
+                      <FileText className="w-3.5 h-3.5 text-emerald-700" />
+                      <span className="font-bold">Tax Invoice</span>
                     </>
                   ) : (
                     <>
@@ -335,6 +337,48 @@ export default function OrderDetailPage() {
                 </Link>
               </div>
             </div>
+
+            {/* Delivered Status: Flipkart Tax Invoice Banner */}
+            {isDelivered && (
+              <div className="p-4 rounded-2xl bg-emerald-50/90 border border-emerald-300 text-emerald-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs print:hidden">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-emerald-200/80 text-emerald-900 flex items-center justify-center shrink-0">
+                    <CheckCircle2 className="w-5 h-5 text-emerald-800" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-xs text-emerald-900 flex items-center gap-1.5">
+                      <span>Official Flipkart-Format Tax Invoice Ready</span>
+                      <span className="text-[10px] px-2 py-0.5 bg-emerald-200 text-emerald-900 rounded-full font-bold uppercase tracking-wider">
+                        Delivered
+                      </span>
+                    </p>
+                    <p className="text-[11px] text-emerald-800 mt-0.5">
+                      Issued with Maha Sell Kushinagar (U.P.) registered GSTIN, HSN breakdown &amp; delivery billing details.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    onClick={() => setShowInvoiceModal(true)}
+                    className="px-4 py-2 rounded-full bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold flex items-center gap-1.5 shadow transition-colors cursor-pointer"
+                  >
+                    <FileText className="w-3.5 h-3.5" />
+                    <span>View Invoice</span>
+                  </button>
+                  <a
+                    href={`/account/orders/${order.id}/invoice?print=true`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-3.5 py-2 rounded-full border border-emerald-300 bg-white hover:bg-emerald-100 text-emerald-900 text-xs font-bold flex items-center gap-1.5 transition-colors shadow-xs"
+                    title="Print or Save PDF"
+                  >
+                    <Printer className="w-3.5 h-3.5 text-emerald-700" />
+                    <span>Print PDF</span>
+                  </a>
+                </div>
+              </div>
+            )}
 
             {/* Warning Banner if order is not delivered */}
             {!isDelivered && (
@@ -653,6 +697,55 @@ export default function OrderDetailPage() {
                 Understood
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Official Flipkart-style Tax Invoice Modal */}
+      {showInvoiceModal && (
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto animate-in fade-in">
+          <div className="relative bg-white rounded-3xl max-w-4xl w-full p-4 sm:p-6 shadow-2xl border border-stone-300 max-h-[95vh] overflow-y-auto my-auto animate-in zoom-in-95">
+            
+            {/* Modal Header Bar */}
+            <div className="sticky -top-4 bg-white/95 backdrop-blur-md z-20 flex items-center justify-between pb-3 mb-4 border-b border-stone-200 pt-1">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center text-amber-900 shrink-0">
+                  <FileText className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm text-stone-900">Maha Sell • Official Tax Invoice</h3>
+                  <p className="text-[11px] text-stone-500 font-mono">OD{order.id} • Flipkart Standard Format</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <a
+                  href={`/account/orders/${order.id}/invoice`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="px-3 py-1.5 rounded-xl border border-stone-300 hover:bg-stone-50 text-stone-700 text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                  title="Open full page invoice"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">New Tab</span>
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setShowInvoiceModal(false)}
+                  className="p-1.5 sm:p-2 rounded-full hover:bg-stone-100 text-stone-500 hover:text-stone-900 transition-colors cursor-pointer"
+                  title="Close Preview"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Flipkart Invoice View */}
+            <FlipkartInvoice
+              order={order}
+              onBack={() => setShowInvoiceModal(false)}
+              showControls={true}
+            />
           </div>
         </div>
       )}

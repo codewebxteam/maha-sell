@@ -132,6 +132,8 @@ export const FOOTER_COLUMNS = [
     title: "ABOUT MAHA SELL",
     links: [
       { label: "About Us", href: "/pages/about-us" },
+      { label: "Become a Partner / Sell with Us", href: "/partner/register" },
+      { label: "Partner Portal Login", href: "/login" },
       { label: "Privacy Policy", href: "/privacy-policy" },
       { label: "Terms of Use", href: "/terms-and-conditions" },
     ],

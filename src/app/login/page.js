@@ -63,6 +63,8 @@ function LoginForm() {
       const isAdmin = currentRole === "admin" || isEmailAdmin(currentUser.email);
       if (isAdmin) {
         router.replace("/admin");
+      } else if (currentRole === "partner") {
+        router.replace("/partner");
       } else {
         router.replace("/");
       }
@@ -147,9 +149,12 @@ function LoginForm() {
 
       // Dynamic routing:
       // Admin -> /admin
+      // Partner -> /partner
       // Customer -> redirect URL or /
       if (userRole === "admin") {
         router.push("/admin");
+      } else if (userRole === "partner") {
+        router.push("/partner");
       } else {
         const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
         const redirectParam = params?.get("redirect");
@@ -393,7 +398,7 @@ function LoginForm() {
           {/* Customer / Patron Register Link */}
           <div className="mt-6 pt-5 border-t border-stone-200 text-center">
             <p className="text-xs text-stone-600">
-              New to Maha Sell?{" "}
+              New customer to Maha Sell?{" "}
               <Link href="/register" className="font-bold text-[#3E0C15] hover:underline underline-offset-4">
                 Create Account
               </Link>

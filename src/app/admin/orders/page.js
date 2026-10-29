@@ -477,6 +477,22 @@ export default function AdminOrdersPage() {
 
                       <td className="py-3.5 px-4 text-right">
                         <div className="flex items-center justify-end gap-1.5">
+                          {(order.status || "").toLowerCase().includes("deliver") && (
+                            <a
+                              href={`/account/orders/${order.id}/invoice?print=true`}
+                              target="_blank"
+                              rel="noreferrer"
+                              onClick={() => {
+                                try {
+                                  sessionStorage.setItem("mahasell_view_order", JSON.stringify(order));
+                                } catch (e) {}
+                              }}
+                              title="Print Flipkart-style Tax Invoice"
+                              className="p-1.5 rounded-lg text-emerald-700 hover:text-emerald-900 hover:bg-emerald-50 border border-emerald-200 transition-colors"
+                            >
+                              <FileText className="w-3.5 h-3.5" />
+                            </a>
+                          )}
                           <button
                             type="button"
                             onClick={() => setSelectedOrder(order)}
@@ -679,18 +695,21 @@ export default function AdminOrdersPage() {
                     setPrintWarning(true);
                   } else {
                     setPrintWarning(false);
-                    window.print();
+                    try {
+                      sessionStorage.setItem("mahasell_view_order", JSON.stringify(selectedOrder));
+                    } catch (e) {}
+                    window.open(`/account/orders/${selectedOrder.id}/invoice?print=true`, "_blank");
                   }
                 }}
                 className={`flex-1 py-2.5 rounded-xl border font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
                   (selectedOrder.status || "").toLowerCase().includes("deliver")
-                    ? "border-stone-300 hover:bg-stone-50 text-stone-800"
+                    ? "border-emerald-600 bg-emerald-50 text-emerald-900 hover:bg-emerald-100"
                     : "border-amber-300 bg-amber-50 text-amber-900 hover:bg-amber-100"
                 }`}
-                title={(selectedOrder.status || "").toLowerCase().includes("deliver") ? "Print invoice" : "Invoice requires Delivered status"}
+                title={(selectedOrder.status || "").toLowerCase().includes("deliver") ? "Print official Flipkart-style Tax Invoice" : "Invoice requires Delivered status"}
               >
-                <FileText className="w-4 h-4" />
-                <span>{(selectedOrder.status || "").toLowerCase().includes("deliver") ? "Print Invoice" : "Invoice (Delivery Pending)"}</span>
+                <FileText className="w-4 h-4 text-emerald-800" />
+                <span>{(selectedOrder.status || "").toLowerCase().includes("deliver") ? "Tax Invoice (Flipkart)" : "Invoice (Delivery Pending)"}</span>
               </button>
               <button
                 onClick={() => {

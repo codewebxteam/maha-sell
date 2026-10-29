@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { 
@@ -16,10 +16,13 @@ import {
   Sparkles,
   ChevronRight,
   LogOut,
-  Boxes
+  Boxes,
+  Store,
+  ShieldCheck
 } from "lucide-react";
-import { auth } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
 import { signOut } from "firebase/auth";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { useAuth } from "@/context/AuthContext";
 import LogoutConfirmModal from "@/components/LogoutConfirmModal";
 
@@ -29,6 +32,25 @@ export default function AdminSidebar({ isMobileOpen, setIsMobileOpen }) {
   const { user } = useAuth();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [logoutLoading, setLogoutLoading] = useState(false);
+  const [pendingPartners, setPendingPartners] = useState(0);
+  const [pendingVerifications, setPendingVerifications] = useState(0);
+
+  useEffect(() => {
+    async function fetchCounts() {
+      try {
+        // Pending partners
+        const partQ = query(collection(db, "users"), where("role", "==", "partner"), where("partnerStatus", "==", "pending"));
+        const partSnap = await getDocs(partQ);
+        setPendingPartners(partSnap.size);
+
+        // Pending product verifications
+        const prodQ = query(collection(db, "products"), where("isVerified", "==", false));
+        const prodSnap = await getDocs(prodQ);
+        setPendingVerifications(prodSnap.size);
+      } catch (_) {}
+    }
+    fetchCounts();
+  }, [pathname]);
 
   const handleAdminLogout = async () => {
     setLogoutLoading(true);
@@ -45,6 +67,18 @@ export default function AdminSidebar({ isMobileOpen, setIsMobileOpen }) {
 
   const navigation = [
     { name: "Dashboard", href: "/admin", icon: LayoutDashboard, exact: true },
+    { 
+      name: "Partner Approvals", 
+      href: "/admin/partners", 
+      icon: Store,
+      badge: pendingPartners > 0 ? `${pendingPartners} New` : null
+    },
+    { 
+      name: "Product Verifications", 
+      href: "/admin/verifications", 
+      icon: ShieldCheck,
+      badge: pendingVerifications > 0 ? `${pendingVerifications} Pending` : null
+    },
     { name: "Categories", href: "/admin/categories", icon: Layers },
     { name: "Products & Inventory", href: "/admin/products", icon: Package },
     { name: "Add New Product", href: "/admin/products/new", icon: PlusCircle, highlight: true },

@@ -20,7 +20,9 @@ export default function BestsellersSection() {
           limit(8)
         );
         const snapshot = await getDocs(q);
-        const products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const products = snapshot.docs
+          .map(doc => ({ id: doc.id, ...doc.data() }))
+          .filter(p => p.isVerified !== false && p.verificationStatus !== "rejected" && p.status !== "pending_verification");
         setBestsellers(products);
       } catch (error) {
         console.error("Error fetching bestsellers:", error);

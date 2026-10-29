@@ -125,9 +125,26 @@ export default async function sitemap() {
       .map((docSnap) => {
         const data = docSnap.data();
         const slug = data.slug || docSnap.id;
+        let lm = new Date();
+        try {
+          if (data.updatedAt?.toDate) {
+            lm = data.updatedAt.toDate();
+          } else if (data.updatedAt?.seconds) {
+            lm = new Date(data.updatedAt.seconds * 1000);
+          } else if (data.createdAt?.toDate) {
+            lm = data.createdAt.toDate();
+          } else if (data.createdAt?.seconds) {
+            lm = new Date(data.createdAt.seconds * 1000);
+          } else if (data.updatedAt && !isNaN(new Date(data.updatedAt).getTime())) {
+            lm = new Date(data.updatedAt);
+          }
+        } catch (_) {
+          lm = new Date();
+        }
+
         return {
           url: `${baseUrl}/product/${slug}`,
-          lastModified: data.updatedAt ? new Date(data.updatedAt) : new Date(),
+          lastModified: lm,
           changeFrequency: "weekly",
           priority: 0.8,
         };

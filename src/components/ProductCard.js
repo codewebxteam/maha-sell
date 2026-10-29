@@ -13,9 +13,11 @@ import {
   Sparkles, 
   ShieldCheck, 
   ArrowRight,
-  Layers
+  Layers,
+  Store
 } from "lucide-react";
 import { useCartWishlist } from "@/context/CartWishlistContext";
+import { getProductColors } from "@/lib/colorUtils";
 
 export default function ProductCard({ product }) {
   const { toggleWishlist, isInWishlist, addToCart } = useCartWishlist();
@@ -27,8 +29,10 @@ export default function ProductCard({ product }) {
   const [addedAnimation, setAddedAnimation] = useState(false);
   const [selectedColor, setSelectedColor] = useState(product.colorName || "Primary");
 
-  const discountPercent = product.originalPrice && product.originalPrice > product.price
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) 
+  const productPrice = Number(product.price) || 0;
+  const originalPrice = Number(product.originalPrice) || 0;
+  const discountPercent = (originalPrice > productPrice && originalPrice > 0)
+    ? Math.round(((originalPrice - productPrice) / originalPrice) * 100) 
     : 0;
 
   // Handle Quick Add to Bag
@@ -62,20 +66,8 @@ export default function ProductCard({ product }) {
     setIsQuickViewOpen(false);
   };
 
-  // Available variant colors palette for demonstration
-  const variantColors = [
-    { name: product.colorName || "Default", hex: product.colorHex || "#3E0C15" },
-    ...(product.color === "emerald-green" ? [
-      { name: "Royal Wine", hex: "#4A0E17" },
-      { name: "Midnight Blue", hex: "#1A2A6C" }
-    ] : product.color === "pink" ? [
-      { name: "Crimson Red", hex: "#B71C1C" },
-      { name: "Royal Purple", hex: "#6A1B9A" }
-    ] : [
-      { name: "Antique Gold", hex: "#D4AF37" },
-      { name: "Emerald Green", hex: "#0D593F" }
-    ])
-  ];
+  // Dynamic product colors extracted strictly from product data (no hardcoded demo colors)
+  const variantColors = getProductColors(product);
 
   return (
     <>
@@ -194,25 +186,31 @@ export default function ProductCard({ product }) {
                 {product.categoryName || product.category}
               </span>
 
-              {/* Color Swatches */}
-              <div 
-                className="flex items-center gap-1 shrink-0" 
-                onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
-              >
-                {variantColors.slice(0, 3).map((v, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setSelectedColor(v.name)}
-                    title={v.name}
-                    className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${
-                      selectedColor === v.name
-                        ? "ring-1.5 ring-[#9E7D2E] ring-offset-1 scale-110"
-                        : "opacity-75 hover:opacity-100 hover:scale-105"
-                    }`}
-                    style={{ backgroundColor: v.hex }}
-                  />
-                ))}
-              </div>
+              {/* Color Swatches (Only if real colors are assigned to this product) */}
+              {variantColors.length > 0 && (
+                <div 
+                  className="flex items-center gap-1 shrink-0" 
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                >
+                  {variantColors.slice(0, 3).map((v, i) => {
+                    const isGrad = v.hex?.includes("gradient");
+                    return (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => setSelectedColor(v.name)}
+                        title={v.name}
+                        className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer border border-black/10 ${
+                          selectedColor === v.name
+                            ? "ring-1.5 ring-[#9E7D2E] ring-offset-1 scale-110"
+                            : "opacity-75 hover:opacity-100 hover:scale-105"
+                        }`}
+                        style={isGrad ? { background: v.hex } : { backgroundColor: v.hex }}
+                      />
+                    );
+                  })}
+                </div>
+              )}
             </div>
 
             {/* Product Name (Clickable link) */}
@@ -227,6 +225,14 @@ export default function ProductCard({ product }) {
               {product.fabricName || product.fabric}
             </p>
 
+            {/* Partner Seller Shop Name (if partner product) */}
+            {product.sellerShopName && (
+              <div className="flex items-center gap-1 mt-1 text-[10px] text-stone-600 font-medium">
+                <Store className="w-3 h-3 text-[#C5832B] shrink-0" />
+                <span className="truncate">Sold by: <strong className="text-stone-800 font-semibold">{product.sellerShopName}</strong></span>
+              </div>
+            )}
+
             {/* Rating & Review Count */}
             <div className="flex items-center gap-1 mt-1">
               <div className="flex items-center text-amber-500">
@@ -239,20 +245,20 @@ export default function ProductCard({ product }) {
 
           {/* Pricing Row (Selling Price, MRP, Discount %) */}
           <div className="flex items-baseline justify-between mt-2 pt-1.5 border-t border-stone-100">
-            <div className="flex items-baseline flex-wrap gap-1">
+            <div className="flex items-baseline flex-wrap gap-1.5">
               <span className="text-xs sm:text-sm md:text-base font-bold text-[#3E0C15]">
-                ₹{product.price.toLocaleString("en-IN")}
+                ₹{productPrice.toLocaleString("en-IN")}
               </span>
 
-              {product.originalPrice && product.originalPrice > product.price && (
-                <span className="text-[10px] sm:text-[11px] text-stone-400 line-through">
-                  ₹{product.originalPrice.toLocaleString("en-IN")}
+              {originalPrice > productPrice && (
+                <span className="text-[10px] sm:text-[11px] text-stone-400 line-through font-normal">
+                  ₹{originalPrice.toLocaleString("en-IN")}
                 </span>
               )}
 
               {discountPercent > 0 && (
-                <span className="text-[9px] sm:text-[10px] font-bold text-emerald-700">
-                  ({discountPercent}% OFF)
+                <span className="text-[9px] sm:text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
+                  {discountPercent}% OFF
                 </span>
               )}
             </div>
@@ -343,15 +349,15 @@ export default function ProductCard({ product }) {
                     {/* Price Block */}
                     <div className="flex items-baseline gap-2.5 mt-3 pt-3 border-t border-stone-100">
                       <span className="text-2xl font-bold text-[#3E0C15]">
-                        ₹{product.price.toLocaleString("en-IN")}
+                        ₹{productPrice.toLocaleString("en-IN")}
                       </span>
-                      {product.originalPrice && product.originalPrice > product.price && (
-                        <span className="text-sm text-stone-400 line-through">
-                          ₹{product.originalPrice.toLocaleString("en-IN")}
+                      {originalPrice > productPrice && (
+                        <span className="text-sm text-stone-400 line-through font-normal">
+                          ₹{originalPrice.toLocaleString("en-IN")}
                         </span>
                       )}
                       {discountPercent > 0 && (
-                        <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">
+                        <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-200">
                           {discountPercent}% OFF
                         </span>
                       )}

@@ -30,7 +30,7 @@ import { db } from "@/lib/firebase";
 export default function Navbar({ navItems = HEADER_NAV_ITEMS, config = SITE_CONFIG }) {
   const router = useRouter();
   const { cartCount, wishlist } = useCartWishlist();
-  const { user } = useAuth();
+  const { user, isPartner, isAdmin } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [expandedMobileCategory, setExpandedMobileCategory] = useState(null);
@@ -128,7 +128,7 @@ export default function Navbar({ navItems = HEADER_NAV_ITEMS, config = SITE_CONF
     setExpandedMobileCategory((prev) => (prev === name ? null : name));
   };
 
-  const accountUrl = user ? "/account" : "/login";
+  const accountUrl = isAdmin ? "/admin" : isPartner ? "/partner" : user ? "/account" : "/login";
   const desktopNavItems = dynamicNavItems;
 
   return (
@@ -223,7 +223,7 @@ export default function Navbar({ navItems = HEADER_NAV_ITEMS, config = SITE_CONF
               >
                 <User className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 <span className="text-xs font-semibold uppercase tracking-wider hidden xl:inline">
-                  {user ? "Account" : "Sign In"}
+                  {isAdmin ? "Admin" : isPartner ? "Partner Panel" : user ? "Account" : "Sign In"}
                 </span>
               </Link>
 
@@ -482,9 +482,19 @@ export default function Navbar({ navItems = HEADER_NAV_ITEMS, config = SITE_CONF
                   onClick={() => setMobileMenuOpen(false)} 
                   className="flex items-center justify-between py-1 font-bold text-stone-900 hover:text-[#3E0C15]"
                 >
-                  <span>{user ? "My Royal Account" : "Sign In / Register"}</span>
+                  <span>{isAdmin ? "Admin Console" : isPartner ? "Partner Portal Dashboard" : user ? "My Account" : "Sign In / Register"}</span>
                   <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
                 </Link>
+                {!isPartner && !isAdmin && (
+                  <Link 
+                    href="/partner/register" 
+                    onClick={() => setMobileMenuOpen(false)} 
+                    className="flex items-center justify-between py-1 font-bold text-[#571520] hover:text-[#3E0C15]"
+                  >
+                    <span>Become a Partner / Sell with Us</span>
+                    <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
+                  </Link>
+                )}
                 <Link 
                   href="/pages/about-us" 
                   onClick={() => setMobileMenuOpen(false)} 

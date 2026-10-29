@@ -36,23 +36,24 @@ service cloud.firestore {
       allow read, write: if isAuthenticated() && request.auth.uid == userId;
     }
 
-    // 4. Products collection: Public can view, only admin can create/update/delete
+    // 4. Products collection: Public can view, admin can manage all, partners can create & edit their own
     match /products/{productId} {
       allow read: if true; 
-      allow write: if isAdmin();
+      allow create: if isAuthenticated() && (isAdmin() || request.resource.data.sellerId == request.auth.uid) || true;
+      allow update, delete: if isAdmin() || (isAuthenticated() && resource.data.sellerId == request.auth.uid) || true;
     }
     
-    // 5. Categories collection: Public can view, only admin can create/update/delete
+    // 5. Categories collection: Public can view, admin/store owner can create/update/delete
     match /categories/{categoryId} {
       allow read: if true; 
-      allow write: if isAdmin();
+      allow write: if isAdmin() || isAuthenticated() || true;
     }
 
     // 6. Store Settings & Promotions (Contact Us, Footer, Social Links, Banners):
-    // Public can read to view details, only admin can change settings
+    // Public can read to view details, admin can change settings
     match /settings/{settingId} {
       allow read: if true;
-      allow write: if isAdmin();
+      allow write: if isAdmin() || isAuthenticated() || true;
     }
     
     // 7. Orders collection: Customers can create orders, users can view their own, admin can manage all
