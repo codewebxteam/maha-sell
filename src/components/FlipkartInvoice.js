@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import Image from "next/image";
-import { Printer, Download, ArrowLeft, CheckCircle2, ShieldCheck } from "lucide-react";
+import { Printer, ArrowLeft } from "lucide-react";
 import { SELLER_DETAILS, calculateInvoiceData } from "@/lib/invoiceUtils";
 
 export default function FlipkartInvoice({ order, onBack, showControls = true }) {
@@ -22,11 +22,139 @@ export default function FlipkartInvoice({ order, onBack, showControls = true }) 
   };
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full flex flex-col items-center invoice-print-container">
       
+      {/* Precision Print Stylesheet for Guaranteed 1-Page A4 Fit */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        @media print {
+          @page {
+            size: A4 portrait;
+            margin: 6mm 6mm 6mm 6mm;
+          }
+          html, body {
+            background: #ffffff !important;
+            color: #000000 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            min-height: 0 !important;
+            height: auto !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            font-size: 8pt !important;
+            line-height: 1.25 !important;
+          }
+          .invoice-no-print {
+            display: none !important;
+          }
+          .invoice-print-container {
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+          .invoice-page-sheet {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 auto !important;
+            padding: 3mm 4mm !important;
+            border: 1px solid #000000 !important;
+            box-shadow: none !important;
+            box-sizing: border-box !important;
+            font-size: 8pt !important;
+            line-height: 1.25 !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+          }
+          .invoice-addresses-row {
+            display: flex !important;
+            flex-direction: row !important;
+            width: 100% !important;
+          }
+          .invoice-address-col {
+            flex: 1 1 0% !important;
+            min-width: 0 !important;
+            padding: 4px 6px !important;
+            border-right: 1px solid #000000 !important;
+          }
+          .invoice-address-col:last-child {
+            border-right: none !important;
+          }
+          .invoice-meta-row {
+            display: flex !important;
+            flex-direction: row !important;
+            width: 100% !important;
+          }
+          .invoice-meta-col {
+            flex: 1 1 0% !important;
+            min-width: 0 !important;
+            padding: 3px 5px !important;
+            border-right: 1px solid #000000 !important;
+          }
+          .invoice-meta-col:last-child {
+            border-right: none !important;
+          }
+          .invoice-summary-row {
+            display: flex !important;
+            flex-direction: row !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+          }
+          .invoice-summary-left {
+            flex: 1.15 1 0% !important;
+            min-width: 0 !important;
+            padding-right: 6px !important;
+            border-right: 1px solid #000000 !important;
+          }
+          .invoice-summary-right {
+            flex: 0.85 1 0% !important;
+            min-width: 0 !important;
+            padding-left: 6px !important;
+          }
+          .invoice-signatory-row {
+            display: flex !important;
+            flex-direction: row !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+          }
+          .invoice-declaration-left {
+            flex: 1.65 1 0% !important;
+            min-width: 0 !important;
+            padding-right: 6px !important;
+            border-right: 1px solid #000000 !important;
+          }
+          .invoice-signatory-right {
+            flex: 1 1 0% !important;
+            min-width: 0 !important;
+            padding-left: 6px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            text-align: center !important;
+          }
+          .invoice-avoid-break {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+          }
+          table {
+            page-break-inside: auto !important;
+            break-inside: auto !important;
+          }
+          thead {
+            display: table-header-group !important;
+          }
+          tr {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+          }
+          .invoice-tight-cell {
+            padding: 2.5px 4px !important;
+          }
+        }
+      `}} />
+
       {/* Top Action Bar (Hidden on Print) */}
       {showControls && (
-        <div className="w-full max-w-[850px] mb-4 flex items-center justify-between px-3 py-2.5 bg-stone-900 text-stone-100 rounded-2xl shadow-md print:hidden">
+        <div className="w-full max-w-[850px] mb-4 flex items-center justify-between px-3 py-2.5 bg-stone-900 text-stone-100 rounded-2xl shadow-md print:hidden invoice-no-print">
           <div className="flex items-center gap-3">
             {onBack && (
               <button
@@ -57,91 +185,85 @@ export default function FlipkartInvoice({ order, onBack, showControls = true }) 
         </div>
       )}
 
-      {/* 
-        ========================================================================
-        FLIPKART OFFICIAL TAX INVOICE FORMAT
-        Exact layout with standard grid borders, HSN codes, and GST breakdown
-        ========================================================================
-      */}
+      {/* Official Tax Invoice Document (A4 Form Factor) */}
       <div 
         ref={invoiceRef}
-        className="w-full max-w-[850px] bg-white text-black p-6 sm:p-8 font-sans border border-stone-800 shadow-xl print:shadow-none print:border-none print:p-0 print:m-0 text-[11px] leading-tight select-text"
+        className="invoice-page-sheet w-full max-w-[850px] bg-white text-black p-4 sm:p-6 font-sans border border-black shadow-lg print:shadow-none print:border print:p-0 print:m-0 text-[10px] sm:text-[10.5px] leading-snug select-text"
         style={{ color: "#000000" }}
       >
         
         {/* 1. Header Banner */}
-        <div className="flex items-start justify-between border-b-2 border-black pb-4 mb-3">
+        <div className="flex items-start justify-between border-b-2 border-black pb-2 mb-2">
           <div>
-            <h1 className="text-base sm:text-lg font-bold tracking-tight uppercase text-black">
+            <h1 className="text-xs sm:text-sm font-bold tracking-tight uppercase text-black">
               Tax Invoice / Bill of Supply / Cash Memo
             </h1>
-            <p className="text-[10px] text-stone-700 font-medium">
+            <p className="text-[8.5px] text-stone-700 font-medium">
               (Original for Recipient)
             </p>
           </div>
 
-          <div className="flex items-center gap-3 text-right">
+          <div className="flex items-center gap-2 text-right">
             <div>
               <div className="flex items-center justify-end gap-1.5">
-                {/* Maha Sell Luxury Emblem Icon */}
-                <svg width="24" height="24" viewBox="0 0 100 100" fill="none" className="shrink-0">
+                {/* Maha Sell Emblem Icon */}
+                <svg width="18" height="18" viewBox="0 0 100 100" fill="none" className="shrink-0">
                   <rect x="12" y="12" width="76" height="76" rx="22" transform="rotate(45 50 50)" fill="#FAF7F2" stroke="#D4AF37" strokeWidth="6" />
                   <path d="M30 68V34L50 54L70 34V68" stroke="#3E0C15" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-                <span className="font-serif-luxury text-xl sm:text-2xl font-bold tracking-tight text-[#3E0C15]">
+                <span className="font-serif-luxury text-base sm:text-lg font-bold tracking-tight text-[#3E0C15]">
                   Maha Sell
                 </span>
               </div>
-              <p className="text-[9px] uppercase tracking-wider text-stone-600 font-semibold mt-0.5">
-                www.mahasell.in • India's Mega Store
+              <p className="text-[8px] uppercase tracking-wider text-stone-600 font-semibold mt-0.5">
+                www.mahasell.in • India&apos;s Mega Store
               </p>
             </div>
           </div>
         </div>
 
-        {/* 2. Top Grid: Sold By | Billing Address | Shipping Address */}
-        <div className="grid grid-cols-1 md:grid-cols-3 border border-black mb-3 divide-y md:divide-y-0 md:divide-x divide-black">
+        {/* 2. Top Addresses: Sold By | Billing Address | Shipping Address (Guaranteed 3 Side-by-Side Columns) */}
+        <div className="invoice-addresses-row border border-black mb-2 flex text-[8.5px] sm:text-[9px] leading-tight">
           
           {/* Column A: Sold By (Principal Place of Business - Form GST REG-06) */}
-          <div className="p-2.5 space-y-1">
-            <h2 className="font-bold text-[11px] uppercase tracking-wider border-b border-stone-300 pb-1 text-black">
+          <div className="invoice-address-col flex-1 p-2 border-r border-black space-y-0.5">
+            <h2 className="font-bold text-[9.5px] uppercase tracking-wider border-b border-stone-300 pb-0.5 text-black">
               Sold By:
             </h2>
-            <div className="font-bold text-[12px] text-black">
+            <div className="font-bold text-[10.5px] text-black">
               {SELLER_DETAILS.name}
             </div>
-            <div className="text-[10px] text-stone-900 font-bold">
+            <div className="text-[9px] text-stone-900 font-bold">
               {SELLER_DETAILS.legalName}
             </div>
-            <div className="text-[9px] text-stone-600">
+            <div className="text-[8px] text-stone-600">
               Trade Name: {SELLER_DETAILS.tradeName}
             </div>
-            <div className="text-[10px] leading-normal text-stone-800">
+            <div className="text-[8.5px] leading-tight text-stone-800 pt-0.5">
               Building: {SELLER_DETAILS.buildingNo}, Street: {SELLER_DETAILS.roadStreet},<br />
               {SELLER_DETAILS.city}, Dist: {SELLER_DETAILS.district},<br />
               {SELLER_DETAILS.state} - {SELLER_DETAILS.pincode}, {SELLER_DETAILS.country}
             </div>
-            <div className="pt-1.5 text-[10px] space-y-0.5 border-t border-stone-200">
+            <div className="pt-0.5 text-[8px] space-y-0.5 border-t border-stone-200 mt-1">
               <p><span className="font-bold">PAN No:</span> <span className="font-mono font-bold text-black">{SELLER_DETAILS.pan}</span></p>
               <p><span className="font-bold">GSTIN:</span> <span className="font-mono font-bold text-black">{SELLER_DETAILS.gstin}</span></p>
               <p><span className="font-bold">State/UT:</span> Uttar Pradesh (Code: {SELLER_DETAILS.stateCode})</p>
-              <p><span className="font-bold">Constitution:</span> {SELLER_DETAILS.constitution}</p>
             </div>
           </div>
 
-          {/* Column B: Billing Address (jaha se order hua) */}
-          <div className="p-2.5 space-y-1">
-            <h2 className="font-bold text-[11px] uppercase tracking-wider border-b border-stone-300 pb-1 text-black">
+          {/* Column B: Billing Address */}
+          <div className="invoice-address-col flex-1 p-2 border-r border-black space-y-0.5">
+            <h2 className="font-bold text-[9.5px] uppercase tracking-wider border-b border-stone-300 pb-0.5 text-black">
               Billing Address:
             </h2>
-            <div className="font-bold text-[12px] text-black">
+            <div className="font-bold text-[10.5px] text-black">
               {data.customer.name}
             </div>
-            <div className="text-[10px] leading-normal text-stone-800">
+            <div className="text-[8.5px] leading-tight text-stone-800">
               {data.customer.address},<br />
               {data.customer.city}, {data.customer.state} - {data.customer.pincode}
             </div>
-            <div className="pt-1.5 text-[10px] space-y-0.5 border-t border-stone-200">
+            <div className="pt-0.5 text-[8px] space-y-0.5 border-t border-stone-200 mt-1">
               <p><span className="font-bold">State/UT Code:</span> {data.customerStateCode}</p>
               {data.customer.mobile && (
                 <p><span className="font-bold">Phone:</span> +91 {data.customer.mobile}</p>
@@ -153,18 +275,18 @@ export default function FlipkartInvoice({ order, onBack, showControls = true }) 
           </div>
 
           {/* Column C: Shipping Address */}
-          <div className="p-2.5 space-y-1">
-            <h2 className="font-bold text-[11px] uppercase tracking-wider border-b border-stone-300 pb-1 text-black">
+          <div className="invoice-address-col flex-1 p-2 space-y-0.5">
+            <h2 className="font-bold text-[9.5px] uppercase tracking-wider border-b border-stone-300 pb-0.5 text-black">
               Shipping Address:
             </h2>
-            <div className="font-bold text-[12px] text-black">
+            <div className="font-bold text-[10.5px] text-black">
               {data.customer.name}
             </div>
-            <div className="text-[10px] leading-normal text-stone-800">
+            <div className="text-[8.5px] leading-tight text-stone-800">
               {data.customer.address},<br />
               {data.customer.city}, {data.customer.state} - {data.customer.pincode}
             </div>
-            <div className="pt-1.5 text-[10px] space-y-0.5 border-t border-stone-200">
+            <div className="pt-0.5 text-[8px] space-y-0.5 border-t border-stone-200 mt-1">
               <p><span className="font-bold">State/UT Code:</span> {data.customerStateCode}</p>
               <p><span className="font-bold">Place of supply:</span> {data.placeOfSupply}</p>
               <p><span className="font-bold">Place of delivery:</span> {data.placeOfDelivery}</p>
@@ -173,119 +295,91 @@ export default function FlipkartInvoice({ order, onBack, showControls = true }) 
 
         </div>
 
-        {/* 3. Order & Invoice Meta Identifiers Bar */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 border border-black mb-3 divide-x divide-y sm:divide-y-0 divide-black text-[10px] bg-stone-50">
-          <div className="p-2">
-            <span className="text-stone-600 block text-[9px] uppercase font-bold">Order Number:</span>
-            <span className="font-mono font-bold text-black text-[11px]">{data.orderId}</span>
+        {/* 3. Order & Invoice Meta Bar (Guaranteed 4 Side-by-Side Columns) */}
+        <div className="invoice-meta-row border border-black mb-2 flex text-[8.5px] bg-stone-50 print:bg-transparent">
+          <div className="invoice-meta-col flex-1 p-1.5 border-r border-black">
+            <span className="text-stone-600 block text-[7.5px] uppercase font-bold">Order Number:</span>
+            <span className="font-mono font-bold text-black text-[9.5px]">{data.orderId}</span>
           </div>
-          <div className="p-2">
-            <span className="text-stone-600 block text-[9px] uppercase font-bold">Order Date:</span>
+          <div className="invoice-meta-col flex-1 p-1.5 border-r border-black">
+            <span className="text-stone-600 block text-[7.5px] uppercase font-bold">Order Date:</span>
             <span className="font-semibold text-black">{data.invoiceDate}, {data.invoiceTime}</span>
           </div>
-          <div className="p-2">
-            <span className="text-stone-600 block text-[9px] uppercase font-bold">Invoice Number:</span>
-            <span className="font-mono font-bold text-black text-[11px]">{data.invoiceNumber}</span>
+          <div className="invoice-meta-col flex-1 p-1.5 border-r border-black">
+            <span className="text-stone-600 block text-[7.5px] uppercase font-bold">Invoice Number:</span>
+            <span className="font-mono font-bold text-black text-[9.5px]">{data.invoiceNumber}</span>
           </div>
-          <div className="p-2">
-            <span className="text-stone-600 block text-[9px] uppercase font-bold">Invoice Date:</span>
+          <div className="invoice-meta-col flex-1 p-1.5">
+            <span className="text-stone-600 block text-[7.5px] uppercase font-bold">Invoice Date:</span>
             <span className="font-semibold text-black">{data.invoiceDate}</span>
           </div>
         </div>
 
-        {/* 4. Itemized Product Table (Flipkart Table Layout) */}
-        <div className="overflow-x-auto border border-black mb-3">
-          <table className="w-full border-collapse text-[10px]">
+        {/* 4. Itemized Product Table */}
+        <div className="overflow-x-auto border border-black mb-2">
+          <table className="w-full border-collapse text-[8.5px] sm:text-[9px]">
             <thead>
               <tr className="bg-stone-100 border-b border-black text-black font-bold text-center">
-                <th className="p-1.5 border-r border-black w-8">Sl.</th>
-                <th className="p-1.5 border-r border-black text-left">Description</th>
-                <th className="p-1.5 border-r border-black w-14">HSN</th>
-                <th className="p-1.5 border-r border-black w-10">Qty</th>
-                <th className="p-1.5 border-r border-black w-16 text-right">Gross Amount</th>
-                <th className="p-1.5 border-r border-black w-16 text-right">Taxable Value</th>
+                <th className="p-1 border-r border-black w-6 invoice-tight-cell">Sl.</th>
+                <th className="p-1 border-r border-black text-left invoice-tight-cell">Description</th>
+                <th className="p-1 border-r border-black w-14 invoice-tight-cell">HSN</th>
+                <th className="p-1 border-r border-black w-7 invoice-tight-cell">Qty</th>
+                <th className="p-1 border-r border-black w-14 text-right invoice-tight-cell">Gross</th>
+                <th className="p-1 border-r border-black w-14 text-right invoice-tight-cell">Taxable</th>
                 {data.isIntraState ? (
                   <>
-                    <th className="p-1.5 border-r border-black w-16 text-right">CGST (2.5%)</th>
-                    <th className="p-1.5 border-r border-black w-16 text-right">SGST (2.5%)</th>
+                    <th className="p-1 border-r border-black w-12 text-right invoice-tight-cell">CGST (2.5%)</th>
+                    <th className="p-1 border-r border-black w-12 text-right invoice-tight-cell">SGST (2.5%)</th>
                   </>
                 ) : (
-                  <th className="p-1.5 border-r border-black w-20 text-right">IGST (5.0%)</th>
+                  <th className="p-1 border-r border-black w-14 text-right invoice-tight-cell">IGST (5%)</th>
                 )}
-                <th className="p-1.5 w-18 text-right">Total (₹)</th>
+                <th className="p-1 w-14 text-right invoice-tight-cell">Total</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-black/30">
+            <tbody>
               {data.items.map((item) => (
-                <tr key={item.slNo} className="align-top">
-                  <td className="p-1.5 border-r border-black text-center font-bold text-stone-700">
-                    {item.slNo}
+                <tr key={item.slNo} className="border-b border-black/40 text-black invoice-avoid-break">
+                  <td className="p-1 border-r border-black text-center font-mono invoice-tight-cell">{item.slNo}</td>
+                  <td className="p-1 border-r border-black invoice-tight-cell">
+                    <div className="font-bold text-[9px] leading-tight text-stone-900">{item.title}</div>
+                    <div className="text-[7.5px] text-stone-500 font-mono">SKU: {item.sku}</div>
                   </td>
-                  <td className="p-1.5 border-r border-black text-left">
-                    <span className="font-bold text-black block text-[11px]">{item.title}</span>
-                    <span className="text-[9px] text-stone-600 font-mono">SKU: {item.sku}</span>
-                  </td>
-                  <td className="p-1.5 border-r border-black text-center font-mono text-stone-800">
-                    {item.hsn}
-                  </td>
-                  <td className="p-1.5 border-r border-black text-center font-bold">
-                    {item.qty}
-                  </td>
-                  <td className="p-1.5 border-r border-black text-right font-mono">
-                    ₹{item.grossAmount.toFixed(2)}
-                  </td>
-                  <td className="p-1.5 border-r border-black text-right font-mono">
-                    ₹{item.taxableValue.toFixed(2)}
-                  </td>
+                  <td className="p-1 border-r border-black text-center font-mono text-[8.5px] invoice-tight-cell">{item.hsn}</td>
+                  <td className="p-1 border-r border-black text-center font-mono font-semibold invoice-tight-cell">{item.qty}</td>
+                  <td className="p-1 border-r border-black text-right font-mono invoice-tight-cell">₹{item.grossAmount.toFixed(2)}</td>
+                  <td className="p-1 border-r border-black text-right font-mono invoice-tight-cell">₹{item.taxableValue.toFixed(2)}</td>
                   {data.isIntraState ? (
                     <>
-                      <td className="p-1.5 border-r border-black text-right font-mono">
-                        ₹{item.cgstAmount.toFixed(2)}
-                      </td>
-                      <td className="p-1.5 border-r border-black text-right font-mono">
-                        ₹{item.sgstAmount.toFixed(2)}
-                      </td>
+                      <td className="p-1 border-r border-black text-right font-mono invoice-tight-cell">₹{item.cgstAmount.toFixed(2)}</td>
+                      <td className="p-1 border-r border-black text-right font-mono invoice-tight-cell">₹{item.sgstAmount.toFixed(2)}</td>
                     </>
                   ) : (
-                    <td className="p-1.5 border-r border-black text-right font-mono">
-                      ₹{item.igstAmount.toFixed(2)}
-                    </td>
+                    <td className="p-1 border-r border-black text-right font-mono invoice-tight-cell">₹{item.igstAmount.toFixed(2)}</td>
                   )}
-                  <td className="p-1.5 text-right font-mono font-bold text-black">
-                    ₹{item.total.toFixed(2)}
-                  </td>
+                  <td className="p-1 text-right font-mono font-bold text-black invoice-tight-cell">₹{item.total.toFixed(2)}</td>
                 </tr>
               ))}
 
-              {/* Subtotal summary inside table */}
-              <tr className="bg-stone-50 border-t border-black font-bold text-black">
-                <td colSpan={3} className="p-1.5 border-r border-black text-right uppercase">
+              {/* Subtotal row */}
+              <tr className="bg-stone-50 border-t border-black font-bold text-black invoice-avoid-break">
+                <td colSpan={3} className="p-1 border-r border-black text-right uppercase text-[8.5px] invoice-tight-cell">
                   Total
                 </td>
-                <td className="p-1.5 border-r border-black text-center">
+                <td className="p-1 border-r border-black text-center invoice-tight-cell">
                   {data.items.reduce((acc, it) => acc + it.qty, 0)}
                 </td>
-                <td className="p-1.5 border-r border-black text-right font-mono">
-                  ₹{data.grossSubtotal.toFixed(2)}
-                </td>
-                <td className="p-1.5 border-r border-black text-right font-mono">
-                  ₹{data.totalTaxable.toFixed(2)}
-                </td>
+                <td className="p-1 border-r border-black text-right font-mono invoice-tight-cell">₹{data.grossSubtotal.toFixed(2)}</td>
+                <td className="p-1 border-r border-black text-right font-mono invoice-tight-cell">₹{data.totalTaxable.toFixed(2)}</td>
                 {data.isIntraState ? (
                   <>
-                    <td className="p-1.5 border-r border-black text-right font-mono">
-                      ₹{data.totalCgst.toFixed(2)}
-                    </td>
-                    <td className="p-1.5 border-r border-black text-right font-mono">
-                      ₹{data.totalSgst.toFixed(2)}
-                    </td>
+                    <td className="p-1 border-r border-black text-right font-mono invoice-tight-cell">₹{data.totalCgst.toFixed(2)}</td>
+                    <td className="p-1 border-r border-black text-right font-mono invoice-tight-cell">₹{data.totalSgst.toFixed(2)}</td>
                   </>
                 ) : (
-                  <td className="p-1.5 border-r border-black text-right font-mono">
-                    ₹{data.totalIgst.toFixed(2)}
-                  </td>
+                  <td className="p-1 border-r border-black text-right font-mono invoice-tight-cell">₹{data.totalIgst.toFixed(2)}</td>
                 )}
-                <td className="p-1.5 text-right font-mono font-bold text-black text-[11px]">
+                <td className="p-1 text-right font-mono font-bold text-black text-[9.5px] invoice-tight-cell">
                   ₹{data.grandTotal.toFixed(2)}
                 </td>
               </tr>
@@ -293,113 +387,104 @@ export default function FlipkartInvoice({ order, onBack, showControls = true }) 
           </table>
         </div>
 
-        {/* 5. Summary, Words & Payment Details Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 border border-black p-3 mb-3">
+        {/* 5. Summary, Words & Payment Details Grid (Guaranteed 2 Side-by-Side Columns) */}
+        <div className="invoice-summary-row invoice-avoid-break border border-black p-2 mb-2 flex text-[8.5px] leading-tight">
           
           {/* Left Details: Amount in words, Payment mode */}
-          <div className="space-y-2 text-[10px]">
+          <div className="invoice-summary-left flex-[1.15] pr-2 border-r border-black space-y-1">
             <div>
-              <span className="font-bold text-black uppercase block text-[9px]">Amount in Words:</span>
-              <p className="font-bold text-[11px] text-stone-900 italic">
+              <span className="font-bold text-black uppercase block text-[7.5px]">Amount in Words:</span>
+              <p className="font-bold text-[9.5px] text-stone-900 italic leading-snug">
                 {data.totalInWords}
               </p>
             </div>
 
-            <div className="pt-2 border-t border-stone-200 space-y-1">
+            <div className="pt-1 border-t border-stone-200 space-y-0.5 text-[8px]">
               <p><span className="font-bold">Payment Method:</span> <span className="font-semibold text-black">{data.paymentMode}</span></p>
               <p><span className="font-bold">Transaction / Ref ID:</span> <span className="font-mono text-stone-700">{data.paymentRef}</span></p>
               <p><span className="font-bold">Payment Status:</span> <span className="font-bold text-emerald-800 uppercase">{data.paymentStatus}</span></p>
-              <p className="text-[9px] text-stone-600">
+              <p className="text-[7.5px] text-stone-600">
                 Whether tax is payable on reverse charge basis: <strong className="text-black">No</strong>
               </p>
             </div>
           </div>
 
           {/* Right Details: Financial Totals */}
-          <div className="text-[10px] space-y-1 md:pl-4 md:border-l border-black/30">
-            <div className="flex justify-between py-0.5">
+          <div className="invoice-summary-right flex-[0.85] pl-2 space-y-0.5 text-[8.5px]">
+            <div className="flex justify-between py-0.2">
               <span className="text-stone-700">Taxable Value:</span>
               <span className="font-mono font-semibold">₹{data.totalTaxable.toFixed(2)}</span>
             </div>
             {data.isIntraState ? (
               <>
-                <div className="flex justify-between py-0.5">
+                <div className="flex justify-between py-0.2">
                   <span className="text-stone-700">CGST (2.5%):</span>
                   <span className="font-mono font-semibold">₹{data.totalCgst.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between py-0.5">
+                <div className="flex justify-between py-0.2">
                   <span className="text-stone-700">SGST (2.5%):</span>
                   <span className="font-mono font-semibold">₹{data.totalSgst.toFixed(2)}</span>
                 </div>
               </>
             ) : (
-              <div className="flex justify-between py-0.5">
+              <div className="flex justify-between py-0.2">
                 <span className="text-stone-700">Integrated GST (5.0%):</span>
                 <span className="font-mono font-semibold">₹{data.totalIgst.toFixed(2)}</span>
               </div>
             )}
-            <div className="flex justify-between py-0.5">
+            <div className="flex justify-between py-0.2">
               <span className="text-stone-700">Shipping &amp; Handling:</span>
               <span className="font-mono font-bold text-emerald-700 uppercase">FREE (₹0.00)</span>
             </div>
             {data.discount > 0 && (
-              <div className="flex justify-between py-0.5 text-emerald-800 font-semibold">
+              <div className="flex justify-between py-0.2 text-emerald-800 font-semibold">
                 <span>Promotional Savings {data.couponCode ? `(${data.couponCode})` : ""}:</span>
                 <span className="font-mono">-₹{data.discount.toFixed(2)}</span>
               </div>
             )}
-            <div className="flex justify-between items-baseline pt-2 border-t-2 border-black text-[12px] font-bold text-black">
+            <div className="flex justify-between items-baseline pt-1 border-t-2 border-black text-[10.5px] font-bold text-black mt-1">
               <span className="uppercase">Grand Total:</span>
-              <span className="font-mono text-base font-bold">₹{data.grandTotal.toFixed(2)}</span>
+              <span className="font-mono text-xs sm:text-sm font-bold">₹{data.grandTotal.toFixed(2)}</span>
             </div>
           </div>
 
         </div>
 
-        {/* 6. Legal Declaration & Authorized Signatory Box */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 border border-black p-3 mb-2 divide-y sm:divide-y-0 sm:divide-x divide-black text-[9px] leading-relaxed">
+        {/* 6. Legal Declaration & Authorized Signatory Box (Guaranteed 2 Side-by-Side Columns) */}
+        <div className="invoice-signatory-row invoice-avoid-break border border-black p-2 mb-1.5 flex text-[8px] leading-tight">
           
-          <div className="sm:col-span-2 pr-0 sm:pr-3 pb-2 sm:pb-0 space-y-1 text-stone-700">
-            <p className="font-bold uppercase text-black">Declaration:</p>
-            <p>
-              1. The goods sold are intended for end-user consumption and not for resale.
-            </p>
-            <p>
-              2. All disputes are subject to Kushinagar, Uttar Pradesh jurisdiction only.
-            </p>
-            <p>
-              3. Certified that the particulars given above are true and correct and the amount indicated represents the price actually charged.
-            </p>
+          <div className="invoice-declaration-left flex-[1.65] pr-2 border-r border-black space-y-0.5 text-stone-700">
+            <p className="font-bold uppercase text-black text-[8.5px]">Declaration:</p>
+            <p>1. The goods sold are intended for end-user consumption and not for resale.</p>
+            <p>2. All disputes are subject to Kushinagar, Uttar Pradesh jurisdiction only.</p>
+            <p>3. Certified that the particulars given above are true and correct and the amount indicated represents the price actually charged.</p>
           </div>
 
-          <div className="pt-2 sm:pt-0 sm:pl-3 flex flex-col justify-between items-center text-center">
-            <div className="font-bold text-black text-[10px]">
+          <div className="invoice-signatory-right flex-1 pl-2 flex flex-col justify-between items-center text-center">
+            <div className="font-bold text-black text-[8.5px]">
               For {SELLER_DETAILS.legalName}
             </div>
-            <div className="text-[8px] text-stone-600">
+            <div className="text-[7.5px] text-stone-600">
               (Platform: {SELLER_DETAILS.name})
             </div>
 
             {/* Realistic Digital Seal / Signature Stamp */}
-            <div className="my-1.5 p-1.5 border border-dashed border-amber-900/60 rounded-lg bg-amber-50/50 flex flex-col items-center">
-              <div className="w-7 h-7 rounded-full border border-amber-800 flex items-center justify-center text-amber-900 font-serif text-[10px] font-bold mb-0.5">
-                SPG
-              </div>
-              <span className="font-mono text-[8px] font-bold tracking-widest text-[#3E0C15] uppercase">
+            <div className="my-0.5 p-1 border border-dashed border-amber-900/60 rounded bg-amber-50/50 flex flex-col items-center">
+              <span className="font-mono text-[7px] font-bold tracking-wider text-[#3E0C15] uppercase">
                 DIGITALLY SIGNED &amp; VERIFIED
               </span>
-              <span className="text-[7px] text-stone-700 font-medium font-mono">
+              <span className="text-[6.5px] text-stone-700 font-medium font-mono">
                 GSTIN: {SELLER_DETAILS.gstin}
               </span>
-              <span className="text-[7px] text-stone-600">
+              <span className="text-[6.5px] text-stone-600">
                 Kushinagar (U.P.) • {data.invoiceDate}
               </span>
             </div>
 
-            <div className="font-bold uppercase tracking-wider text-black text-[9px] border-t border-black/40 pt-1 w-full text-center">
+            <div className="font-bold uppercase tracking-wider text-black text-[7.5px] border-t border-black/40 pt-0.5 w-full text-center">
               Authorized Signatory
             </div>
-            <div className="text-[8px] text-stone-600 font-medium">
+            <div className="text-[7px] text-stone-600 font-medium">
               Sanjay Kumar Yadav (Director)
             </div>
           </div>
@@ -407,7 +492,7 @@ export default function FlipkartInvoice({ order, onBack, showControls = true }) 
         </div>
 
         {/* 7. Footer Disclaimer */}
-        <div className="text-center text-[9px] text-stone-500 pt-2 border-t border-stone-200">
+        <div className="text-center text-[7.5px] text-stone-500 pt-1 border-t border-stone-200">
           <p>
             This is a computer generated invoice issued under Form GST REG-06 and does not require physical signature.
           </p>

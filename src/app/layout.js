@@ -163,13 +163,15 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebsite) }}
         />
       </head>
-      <body className="min-h-full flex flex-col font-sans bg-[#FAF7F2] text-[#1F1815] selection:bg-[#E8C574] selection:text-[#2A170F] pb-16 lg:pb-0">
+      <body className="min-h-full flex flex-col font-sans bg-[#FAF7F2] text-[#1F1815] selection:bg-[#E8C574] selection:text-[#2A170F] pb-16 lg:pb-0 print:bg-white print:p-0 print:pb-0 print:min-h-0">
         <StoreConfigProvider>
           <AuthProvider>
             <CartWishlistProvider>
               {children}
               {/* Welcome Greeting Popup After Login */}
-              <WelcomeModal />
+              <div className="print:hidden">
+                <WelcomeModal />
+              </div>
               {/* Fixed Mobile Bottom Navigation Tab (Hidden on Desktop) */}
               <MobileBottomNav />
             </CartWishlistProvider>

@@ -187,7 +187,7 @@ export default function OrderInvoicePage() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-100 py-6 sm:py-10 px-2 sm:px-4 print:bg-white print:p-0">
+    <div className="min-h-screen bg-stone-100 py-6 sm:py-10 px-2 sm:px-4 print:bg-white print:p-0 print:m-0 print:min-h-0 print:h-auto">
       <FlipkartInvoice
         order={order}
         onBack={() => router.push(`/account/orders/${order.id}`)}

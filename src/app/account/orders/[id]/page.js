@@ -317,9 +317,11 @@ export default function OrderDetailPage() {
 
   return (
     <>
-      <Navbar />
+      <div className="print:hidden">
+        <Navbar />
+      </div>
 
-      <main className="w-full bg-[#FAF7F2] min-h-screen py-10 sm:py-16 print:bg-white print:py-0">
+      <main className={`w-full bg-[#FAF7F2] min-h-screen py-10 sm:py-16 print:bg-white print:py-0 ${showInvoiceModal ? "print:hidden" : ""}`}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Top Return Navigation (Hidden on Print) */}
@@ -800,11 +802,11 @@ export default function OrderDetailPage() {
 
       {/* Official Flipkart-style Tax Invoice Modal */}
       {showInvoiceModal && (
-        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto animate-in fade-in">
-          <div className="relative bg-white rounded-3xl max-w-4xl w-full p-4 sm:p-6 shadow-2xl border border-stone-300 max-h-[95vh] overflow-y-auto my-auto animate-in zoom-in-95">
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto animate-in fade-in print:static print:p-0 print:m-0 print:bg-white print:overflow-visible print:block print:inset-auto">
+          <div className="relative bg-white rounded-3xl max-w-4xl w-full p-4 sm:p-6 shadow-2xl border border-stone-300 max-h-[95vh] overflow-y-auto my-auto animate-in zoom-in-95 print:p-0 print:m-0 print:border-none print:shadow-none print:max-h-none print:overflow-visible print:rounded-none print:w-full print:max-w-none">
             
             {/* Modal Header Bar */}
-            <div className="sticky -top-4 bg-white/95 backdrop-blur-md z-20 flex items-center justify-between pb-3 mb-4 border-b border-stone-200 pt-1">
+            <div className="sticky -top-4 bg-white/95 backdrop-blur-md z-20 flex items-center justify-between pb-3 mb-4 border-b border-stone-200 pt-1 print:hidden">
               <div className="flex items-center gap-2.5">
                 <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center text-amber-900 shrink-0">
                   <FileText className="w-5 h-5" />
@@ -960,7 +962,9 @@ export default function OrderDetailPage() {
         </div>
       )}
 
-      <Footer />
+      <div className="print:hidden">
+        <Footer />
+      </div>
     </>
   );
 }
