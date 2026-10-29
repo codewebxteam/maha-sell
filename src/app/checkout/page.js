@@ -232,7 +232,7 @@ export default function CheckoutPage() {
 
   // Dynamic Financial Calculations from Admin Coupons
   const discount = appliedCoupon ? calculateCouponDiscount(appliedCoupon, cartSubtotal) : 0;
-  const deliveryFee = deliveryOption === "vip" ? 999 : 0;
+  const deliveryFee = 0; // 100% Free Complimentary Express Air Delivery
   const finalTotal = Math.max(0, cartSubtotal - discount + deliveryFee);
 
   const handleApplyCheckoutCoupon = async (e) => {
@@ -1036,11 +1036,7 @@ export default function CheckoutPage() {
                   <div className="space-y-3">
                     <label 
                       onClick={() => setDeliveryOption("express")}
-                      className={`p-5 rounded-2xl border-2 flex items-start justify-between gap-4 cursor-pointer transition-all ${
-                        deliveryOption === "express"
-                          ? "border-[#3E0C15] bg-[#3E0C15]/5 shadow-sm ring-1 ring-[#3E0C15]"
-                          : "border-stone-200 hover:border-stone-300 bg-stone-50"
-                      }`}
+                      className="p-5 rounded-2xl border-2 border-[#3E0C15] bg-[#3E0C15]/5 shadow-sm ring-1 ring-[#3E0C15] flex items-start justify-between gap-4 cursor-pointer transition-all"
                     >
                       <div className="flex items-start gap-3">
                         <Truck className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
@@ -1052,27 +1048,6 @@ export default function CheckoutPage() {
                       </div>
                       <span className="text-xs font-bold text-emerald-800 uppercase bg-emerald-100 px-3 py-1 rounded-full">
                         FREE
-                      </span>
-                    </label>
-
-                    <label 
-                      onClick={() => setDeliveryOption("vip")}
-                      className={`p-5 rounded-2xl border-2 flex items-start justify-between gap-4 cursor-pointer transition-all ${
-                        deliveryOption === "vip"
-                          ? "border-[#3E0C15] bg-[#3E0C15]/5 shadow-sm ring-1 ring-[#3E0C15]"
-                          : "border-stone-200 hover:border-stone-300 bg-stone-50"
-                      }`}
-                    >
-                      <div className="flex items-start gap-3">
-                        <Sparkles className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-                        <div>
-                          <span className="font-bold text-sm text-stone-900 block">Royal VIP White-Glove Hand Delivery</span>
-                          <span className="text-xs text-stone-600">Guaranteed 24-48 hr delivery in luxury satin garment trunk.</span>
-                          <span className="text-[11px] text-amber-800 font-semibold block mt-1">★ Dedicated Master Draper Concierge</span>
-                        </div>
-                      </div>
-                      <span className="text-xs font-bold text-stone-900">
-                        +₹999
                       </span>
                     </label>
                   </div>
@@ -1263,7 +1238,7 @@ export default function CheckoutPage() {
                         <button onClick={() => setCurrentStep(2)} className="text-amber-800 underline font-semibold">Edit</button>
                       </div>
                       <p className="text-stone-700 font-semibold">
-                        {deliveryOption === "vip" ? "Royal VIP White-Glove Hand Delivery (+₹999)" : "Complimentary Express Air Delivery (FREE)"}
+                        Complimentary Express Air Delivery (FREE)
                       </p>
                     </div>
 

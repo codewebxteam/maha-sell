@@ -706,7 +706,7 @@ export default function OrderDetailPage() {
               <div className="flex justify-between text-stone-600">
                 <span>Shipping & Insurance</span>
                 <span className="text-emerald-800 font-bold uppercase">
-                  {isVipDelivery ? "+₹999 (VIP Hand Delivery)" : "Free Express Air (₹0)"}
+                  Free Express Air (₹0)
                 </span>
               </div>
 
