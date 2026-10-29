@@ -380,25 +380,36 @@ function TrackOrderContent() {
                   Continue Shopping
                 </Link>
 
-                <Link
-                  href={
-                    (order.status || "").toLowerCase().includes("deliver")
-                      ? `/account/orders/${order.id}/invoice`
-                      : `/account/orders/${order.id}`
-                  }
-                  target={
-                    (order.status || "").toLowerCase().includes("deliver") ? "_blank" : "_self"
-                  }
-                  className={`w-full sm:w-auto px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all text-center ${
-                    (order.status || "").toLowerCase().includes("deliver")
-                      ? "bg-[#3E0C15] hover:bg-[#571520] text-[#F7EFCF] shadow"
-                      : "bg-amber-100 hover:bg-amber-200 text-[#3E0C15] border border-amber-300"
-                  }`}
-                >
-                  {(order.status || "").toLowerCase().includes("deliver")
-                    ? "View & Print Official Invoice"
-                    : "View Order (Invoice on Delivery)"}
-                </Link>
+                <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto justify-end">
+                  {!isCancelled && !(order.status || "").toLowerCase().includes("deliver") && (
+                    <Link
+                      href={`/account/orders/${order.id}`}
+                      className="w-full sm:w-auto px-5 py-2.5 rounded-full border border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold transition-all text-center"
+                    >
+                      Cancel Order
+                    </Link>
+                  )}
+
+                  <Link
+                    href={
+                      (order.status || "").toLowerCase().includes("deliver")
+                        ? `/account/orders/${order.id}/invoice`
+                        : `/account/orders/${order.id}`
+                    }
+                    target={
+                      (order.status || "").toLowerCase().includes("deliver") ? "_blank" : "_self"
+                    }
+                    className={`w-full sm:w-auto px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all text-center ${
+                      (order.status || "").toLowerCase().includes("deliver")
+                        ? "bg-[#3E0C15] hover:bg-[#571520] text-[#F7EFCF] shadow"
+                        : "bg-stone-900 hover:bg-stone-800 text-white"
+                    }`}
+                  >
+                    {(order.status || "").toLowerCase().includes("deliver")
+                      ? "View & Print Official Invoice"
+                      : "View Order Details"}
+                  </Link>
+                </div>
               </div>
 
               {order.status?.toLowerCase() !== "delivered" && (

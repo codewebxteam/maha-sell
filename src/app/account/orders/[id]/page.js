@@ -23,12 +23,13 @@ import {
   Loader2,
   Lock,
   X,
-  FileText
+  FileText,
+  Ban
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FlipkartInvoice from "@/components/FlipkartInvoice";
-import { doc, getDoc, collection, query, where, getDocs, limit } from "firebase/firestore";
+import { doc, getDoc, collection, query, where, getDocs, limit, updateDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuth } from "@/context/AuthContext";
 
@@ -59,6 +60,13 @@ export default function OrderDetailPage() {
   const [error, setError] = useState(null);
   const [showInvoiceWarning, setShowInvoiceWarning] = useState(false);
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
+
+  // Order Cancellation State
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [cancelReason, setCancelReason] = useState("Ordered by mistake");
+  const [cancelComments, setCancelComments] = useState("");
+  const [isCancelling, setIsCancelling] = useState(false);
+  const [cancelSuccess, setCancelSuccess] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -232,6 +240,7 @@ export default function OrderDetailPage() {
   const isDelivered = sLower.includes("deliver");
   const isDispatched = sLower.includes("dispatch") || sLower.includes("transit");
   const isQualityChecked = isDispatched || isDelivered || sLower.includes("quality") || sLower.includes("packag") || sLower.includes("process");
+  const canCancel = !isCancelled && !isDelivered;
 
   const handlePrintInvoice = () => {
     if (!isDelivered) {
@@ -239,6 +248,44 @@ export default function OrderDetailPage() {
       return;
     }
     setShowInvoiceModal(true);
+  };
+
+  const handleCancelOrder = async () => {
+    if (!order) return;
+    setIsCancelling(true);
+    try {
+      const fullReason = cancelReason + (cancelComments.trim() ? ` - ${cancelComments.trim()}` : "");
+      const orderRef = doc(db, "orders", order.id);
+      
+      await updateDoc(orderRef, {
+        status: "Cancelled",
+        cancelledAt: serverTimestamp(),
+        cancelledBy: "Customer",
+        cancellationReason: fullReason,
+        updatedAt: serverTimestamp()
+      });
+
+      const updated = {
+        ...order,
+        status: "Cancelled",
+        cancelledBy: "Customer",
+        cancellationReason: fullReason,
+        cancelledAt: { seconds: Math.floor(Date.now() / 1000) }
+      };
+
+      setOrder(updated);
+      try {
+        sessionStorage.setItem("mahasell_view_order", JSON.stringify(updated));
+      } catch (e) {}
+
+      setShowCancelModal(false);
+      setCancelSuccess("Order cancelled successfully.");
+    } catch (err) {
+      console.error("Cancellation error:", err);
+      alert("Failed to cancel order. Please verify your internet connection or contact customer support.");
+    } finally {
+      setIsCancelling(false);
+    }
   };
 
   // Address fields
@@ -306,7 +353,24 @@ export default function OrderDetailPage() {
                 <p className="text-xs text-stone-500 mt-1">Placed on {orderDateDisplay}</p>
               </div>
 
-              <div className="flex items-center gap-2.5 print:hidden">
+              <div className="flex flex-wrap items-center gap-2.5 print:hidden">
+                {/* Cancel Order Button */}
+                {canCancel && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowCancelModal(true);
+                      setCancelReason("Ordered by mistake");
+                      setCancelComments("");
+                    }}
+                    className="px-4 py-2 rounded-full border border-rose-300 hover:border-rose-500 bg-rose-50/70 hover:bg-rose-100 text-rose-700 text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs active:scale-95"
+                    title="Cancel this order"
+                  >
+                    <Ban className="w-3.5 h-3.5 text-rose-600" />
+                    <span>Cancel Order</span>
+                  </button>
+                )}
+
                 <button 
                   onClick={handlePrintInvoice}
                   className={`px-4 py-2 rounded-full border text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
@@ -337,6 +401,31 @@ export default function OrderDetailPage() {
                 </Link>
               </div>
             </div>
+
+            {/* Cancelled Banner if status is Cancelled */}
+            {isCancelled && (
+              <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-950 flex items-start gap-3 shadow-xs print:hidden">
+                <div className="w-9 h-9 rounded-xl bg-rose-200 text-rose-800 flex items-center justify-center shrink-0">
+                  <Ban className="w-5 h-5 text-rose-700" />
+                </div>
+                <div className="space-y-1">
+                  <p className="font-bold text-xs text-rose-900 flex items-center gap-1.5">
+                    <span>Order Cancelled</span>
+                    <span className="text-[10px] px-2 py-0.5 bg-rose-200 text-rose-900 rounded-full font-bold uppercase tracking-wider">
+                      Cancelled
+                    </span>
+                  </p>
+                  <p className="text-[11px] text-rose-800 leading-relaxed">
+                    This order has been cancelled. {order.cancellationReason && <>Reason: <strong>{order.cancellationReason}</strong>.</>}
+                  </p>
+                  {(order.paymentStatus === "Paid" || order.razorpayPaymentId) && (
+                    <p className="text-[11px] text-emerald-800 font-semibold pt-0.5">
+                      ✓ 100% full refund of ₹{grandTotal.toLocaleString("en-IN")} will be credited back to your original payment method in 5-7 business days.
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* Delivered Status: Flipkart Tax Invoice Banner */}
             {isDelivered && (
@@ -746,6 +835,119 @@ export default function OrderDetailPage() {
               onBack={() => setShowInvoiceModal(false)}
               showControls={true}
             />
+          </div>
+        </div>
+      )}
+
+      {/* Cancellation Confirmation Modal */}
+      {showCancelModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-rose-100 space-y-5 animate-in zoom-in-95">
+            {/* Modal Header */}
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center shrink-0">
+                  <Ban className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-serif-luxury text-lg font-bold text-stone-900">
+                    Cancel Order #{order.id}
+                  </h3>
+                  <p className="text-xs text-stone-500">
+                    Are you sure you want to cancel this order?
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowCancelModal(false)}
+                className="p-1.5 rounded-full hover:bg-stone-100 text-stone-400 hover:text-stone-700 transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Payment & Refund Status Note */}
+            <div className="p-3.5 rounded-2xl bg-amber-50/90 border border-amber-200/80 text-xs text-amber-950 space-y-1">
+              <p className="font-bold flex items-center gap-1.5">
+                <AlertCircle className="w-4 h-4 text-amber-700 shrink-0" />
+                <span>Payment &amp; Refund Notice:</span>
+              </p>
+              <p className="text-[11px] leading-relaxed text-amber-900">
+                {(order.paymentStatus === "Paid" || order.razorpayPaymentId) ? (
+                  <>
+                    <strong>Prepaid Online:</strong> A full refund of <strong>₹{grandTotal.toLocaleString("en-IN")}</strong> will be automatically credited back to your original source account (UPI / Card / Net Banking) within 5–7 business days.
+                  </>
+                ) : (
+                  <>
+                    <strong>Cash on Delivery (COD):</strong> No payment was deducted. Your shipment will be halted immediately with zero cancellation charge.
+                  </>
+                )}
+              </p>
+            </div>
+
+            {/* Reason Selector */}
+            <div className="space-y-1.5">
+              <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider">
+                Reason for Cancellation <span className="text-rose-600">*</span>
+              </label>
+              <select
+                value={cancelReason}
+                onChange={(e) => setCancelReason(e.target.value)}
+                className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3.5 py-2.5 text-xs text-stone-800 focus:outline-none focus:border-[#3E0C15]"
+              >
+                <option value="Ordered by mistake">Ordered by mistake</option>
+                <option value="Found a better price elsewhere">Found a better price elsewhere</option>
+                <option value="Change of mind / Do not need it now">Change of mind / Do not need it now</option>
+                <option value="Incorrect shipping address or phone">Incorrect shipping address or phone</option>
+                <option value="Delivery time is taking too long">Delivery time is taking too long</option>
+                <option value="Want to change color / saree design">Want to change color / saree design</option>
+                <option value="Other reason">Other reason</option>
+              </select>
+            </div>
+
+            {/* Additional Comments */}
+            <div className="space-y-1.5">
+              <label className="block text-xs font-semibold text-stone-600">
+                Additional Comments (Optional)
+              </label>
+              <textarea
+                rows={2}
+                value={cancelComments}
+                onChange={(e) => setCancelComments(e.target.value)}
+                placeholder="Tell us what went wrong to help us improve..."
+                className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 text-xs text-stone-800 focus:outline-none focus:border-[#3E0C15] resize-none"
+              />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex items-center justify-end gap-3 pt-2 border-t border-stone-100">
+              <button
+                type="button"
+                onClick={() => setShowCancelModal(false)}
+                disabled={isCancelling}
+                className="px-5 py-2.5 rounded-full border border-stone-300 hover:bg-stone-50 text-stone-700 text-xs font-semibold transition-colors cursor-pointer"
+              >
+                Keep Order
+              </button>
+              <button
+                type="button"
+                onClick={handleCancelOrder}
+                disabled={isCancelling}
+                className="px-6 py-2.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md flex items-center gap-2 disabled:opacity-50 cursor-pointer active:scale-95"
+              >
+                {isCancelling ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>Cancelling Order...</span>
+                  </>
+                ) : (
+                  <>
+                    <Ban className="w-3.5 h-3.5" />
+                    <span>Confirm Cancellation</span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       )}
