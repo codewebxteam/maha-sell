@@ -5,8 +5,12 @@
 export const SITE_CONFIG = {
   brandName: "Maha Sell",
   brandNameUpper: "MAHA SELL",
-  companyName: "SP Gooseberry Textile Pvt. Ltd.",
-  legalEntity: "SP Gooseberry Textile Pvt. Ltd.",
+  companyName: "SP.GOOSEBERRY TEXTILE PRIVATE LIMITED",
+  legalEntity: "SP.GOOSEBERRY TEXTILE PRIVATE LIMITED",
+  tradeName: "SP.GOOSEBERRY TEXTILE PRIVATE LIMITED",
+  additionalTradeName: "BUILDSMART INFRATECH",
+  gstin: "09ABICS2544R1ZK",
+  pan: "ABICS2544R",
   tagline: "India's Mega Sale Destination",
   subTagline: "Mega Deals & Unmatched Savings",
   contact: {
@@ -15,7 +19,8 @@ export const SITE_CONFIG = {
     whatsapp: "+91 9770150015",
     email: "info@mahasell.in",
     bridalEmail: "info@mahasell.in",
-    address: "Maha Sell India • Online Operations & Customer Support Desk",
+    address: "Karkhana, Batulahiya, Kushinagar, Uttar Pradesh - 274402",
+    registeredOffice: "Building No./Flat No.: KARKHANA, Road/Street: BATULAHIYA, Kushinagar, Dist: Kushinagar, Uttar Pradesh - 274402",
     workingHours: "Open All 7 Days: 10:00 AM – 9:00 PM IST",
   },
   socialLinks: {

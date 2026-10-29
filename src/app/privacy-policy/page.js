@@ -102,7 +102,7 @@ export default function PrivacyPolicyPage() {
                 <span>1. Introduction &amp; Scope</span>
               </h2>
               <p>
-                This Privacy Policy describes how <strong>SP Gooseberry Textile Pvt. Ltd.</strong> (&ldquo;Maha Sell&rdquo;, &ldquo;Company&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) collects, uses, shares, and protects information about you when you visit our website <strong>mahasell.in</strong>, utilize our online services, or purchase our products.
+                This Privacy Policy describes how <strong>SP.GOOSEBERRY TEXTILE PRIVATE LIMITED</strong> (&ldquo;Maha Sell&rdquo;, &ldquo;Company&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) collects, uses, shares, and protects information about you when you visit our website <strong>mahasell.in</strong>, utilize our online services, or purchase our products.
               </p>
               <p>
                 By accessing or using our website, services, or making a purchase, you acknowledge and consent to the practices described in this policy.
@@ -234,10 +234,11 @@ export default function PrivacyPolicyPage() {
               <div className="p-6 bg-stone-50 rounded-2xl border border-stone-200/90 space-y-2.5">
                 <p className="font-bold text-stone-900 text-sm">Grievance Redressal Desk</p>
                 <p className="text-stone-700"><strong>Officer:</strong> Nodal Grievance Officer, Customer Redressal Cell</p>
-                <p className="text-stone-700"><strong>Company:</strong> SP Gooseberry Textile Pvt. Ltd.</p>
+                <p className="text-stone-700"><strong>Company:</strong> SP.GOOSEBERRY TEXTILE PRIVATE LIMITED</p>
+                <p className="text-xs text-stone-600 font-mono"><strong>GSTIN:</strong> 09ABICS2544R1ZK | <strong>PAN:</strong> ABICS2544R</p>
                 <p className="text-stone-700 flex items-start gap-2">
                   <MapPin className="w-4 h-4 text-amber-800 shrink-0 mt-0.5" />
-                  <span><strong>Registered Office:</strong> {SITE_CONFIG.contact.address}</span>
+                  <span><strong>Registered Office:</strong> {SITE_CONFIG.contact.registeredOffice || SITE_CONFIG.contact.address}</span>
                 </p>
                 <p className="text-stone-700 flex items-center gap-2">
                   <Mail className="w-4 h-4 text-amber-800 shrink-0" />

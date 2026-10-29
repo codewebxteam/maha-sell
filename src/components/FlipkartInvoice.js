@@ -102,7 +102,7 @@ export default function FlipkartInvoice({ order, onBack, showControls = true }) 
         {/* 2. Top Grid: Sold By | Billing Address | Shipping Address */}
         <div className="grid grid-cols-1 md:grid-cols-3 border border-black mb-3 divide-y md:divide-y-0 md:divide-x divide-black">
           
-          {/* Column A: Sold By (Kushinagar, Uttar Pradesh, India + Dummy GSTIN) */}
+          {/* Column A: Sold By (Principal Place of Business - Form GST REG-06) */}
           <div className="p-2.5 space-y-1">
             <h2 className="font-bold text-[11px] uppercase tracking-wider border-b border-stone-300 pb-1 text-black">
               Sold By:
@@ -110,19 +110,22 @@ export default function FlipkartInvoice({ order, onBack, showControls = true }) 
             <div className="font-bold text-[12px] text-black">
               {SELLER_DETAILS.name}
             </div>
-            <div className="text-[10px] text-stone-700 font-medium">
-              {SELLER_DETAILS.registeredEntity}
+            <div className="text-[10px] text-stone-900 font-bold">
+              {SELLER_DETAILS.legalName}
+            </div>
+            <div className="text-[9px] text-stone-600">
+              Trade Name: {SELLER_DETAILS.tradeName}
             </div>
             <div className="text-[10px] leading-normal text-stone-800">
-              {SELLER_DETAILS.address},<br />
-              {SELLER_DETAILS.city}, {SELLER_DETAILS.state} - {SELLER_DETAILS.pincode},<br />
-              {SELLER_DETAILS.country}
+              Building: {SELLER_DETAILS.buildingNo}, Street: {SELLER_DETAILS.roadStreet},<br />
+              {SELLER_DETAILS.city}, Dist: {SELLER_DETAILS.district},<br />
+              {SELLER_DETAILS.state} - {SELLER_DETAILS.pincode}, {SELLER_DETAILS.country}
             </div>
             <div className="pt-1.5 text-[10px] space-y-0.5 border-t border-stone-200">
-              <p><span className="font-bold">PAN No:</span> {SELLER_DETAILS.pan}</p>
+              <p><span className="font-bold">PAN No:</span> <span className="font-mono font-bold text-black">{SELLER_DETAILS.pan}</span></p>
               <p><span className="font-bold">GSTIN:</span> <span className="font-mono font-bold text-black">{SELLER_DETAILS.gstin}</span></p>
               <p><span className="font-bold">State/UT:</span> Uttar Pradesh (Code: {SELLER_DETAILS.stateCode})</p>
-              <p><span className="font-bold">CIN:</span> {SELLER_DETAILS.cin}</p>
+              <p><span className="font-bold">Constitution:</span> {SELLER_DETAILS.constitution}</p>
             </div>
           </div>
 
@@ -371,16 +374,22 @@ export default function FlipkartInvoice({ order, onBack, showControls = true }) 
 
           <div className="pt-2 sm:pt-0 sm:pl-3 flex flex-col justify-between items-center text-center">
             <div className="font-bold text-black text-[10px]">
-              For {SELLER_DETAILS.name}
+              For {SELLER_DETAILS.legalName}
+            </div>
+            <div className="text-[8px] text-stone-600">
+              (Platform: {SELLER_DETAILS.name})
             </div>
 
             {/* Realistic Digital Seal / Signature Stamp */}
             <div className="my-1.5 p-1.5 border border-dashed border-amber-900/60 rounded-lg bg-amber-50/50 flex flex-col items-center">
               <div className="w-7 h-7 rounded-full border border-amber-800 flex items-center justify-center text-amber-900 font-serif text-[10px] font-bold mb-0.5">
-                MS
+                SPG
               </div>
               <span className="font-mono text-[8px] font-bold tracking-widest text-[#3E0C15] uppercase">
                 DIGITALLY SIGNED &amp; VERIFIED
+              </span>
+              <span className="text-[7px] text-stone-700 font-medium font-mono">
+                GSTIN: {SELLER_DETAILS.gstin}
               </span>
               <span className="text-[7px] text-stone-600">
                 Kushinagar (U.P.) • {data.invoiceDate}
@@ -390,6 +399,9 @@ export default function FlipkartInvoice({ order, onBack, showControls = true }) 
             <div className="font-bold uppercase tracking-wider text-black text-[9px] border-t border-black/40 pt-1 w-full text-center">
               Authorized Signatory
             </div>
+            <div className="text-[8px] text-stone-600 font-medium">
+              Sanjay Kumar Yadav (Director)
+            </div>
           </div>
 
         </div>
@@ -397,10 +409,10 @@ export default function FlipkartInvoice({ order, onBack, showControls = true }) 
         {/* 7. Footer Disclaimer */}
         <div className="text-center text-[9px] text-stone-500 pt-2 border-t border-stone-200">
           <p>
-            This is a computer generated invoice and does not require physical signature.
+            This is a computer generated invoice issued under Form GST REG-06 and does not require physical signature.
           </p>
           <p className="mt-0.5">
-            Support: {SELLER_DETAILS.email} | Phone: {SELLER_DETAILS.phone} | Registered in Kushinagar, Uttar Pradesh, India
+            Support: {SELLER_DETAILS.email} | Phone: {SELLER_DETAILS.phone} | Principal Place: Karkhana, Batulahiya, Kushinagar, Uttar Pradesh - 274402
           </p>
         </div>
 

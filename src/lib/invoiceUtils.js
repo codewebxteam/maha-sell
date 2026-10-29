@@ -5,18 +5,31 @@
 
 export const SELLER_DETAILS = {
   name: "Maha Sell",
-  registeredEntity: "SP Gooseberry Textile Pvt. Ltd.",
-  address: "Main Market Road, Buddha Marg, Kushinagar",
+  legalName: "SP.GOOSEBERRY TEXTILE PRIVATE LIMITED",
+  registeredEntity: "SP.GOOSEBERRY TEXTILE PRIVATE LIMITED",
+  tradeName: "SP.GOOSEBERRY TEXTILE PRIVATE LIMITED",
+  additionalTradeName: "BUILDSMART INFRATECH",
+  constitution: "Private Limited Company",
+  buildingNo: "KARKHANA",
+  roadStreet: "BATULAHIYA",
+  address: "KARKHANA, BATULAHIYA",
+  fullAddress: "Building No./Flat No.: KARKHANA, Road/Street: BATULAHIYA, Kushinagar - 274402",
   city: "Kushinagar",
+  district: "Kushinagar",
   state: "Uttar Pradesh",
   pincode: "274402",
   country: "India",
-  gstin: "09AAECM8291M1Z5", // Official Dummy GSTIN (09 - Uttar Pradesh)
-  pan: "AAECM8291M",
-  stateCode: "09",
-  cin: "U17299UP2026PTC198421",
+  gstin: "09ABICS2544R1ZK", // Official GST REG-06 Registration Number
+  pan: "ABICS2544R", // Verified PAN derived from GSTIN
+  stateCode: "09", // Uttar Pradesh State Code
+  directors: [
+    { name: "SANJAY KUMAR YADAV", designation: "DIRECTOR" },
+    { name: "POONAM YADAV", designation: "DIRECTOR" }
+  ],
+  regDate: "04/05/2022",
+  regType: "Regular",
   email: "care@mahasell.in",
-  phone: "+91 91515 92945",
+  phone: "+91 9770150015",
   website: "www.mahasell.in"
 };
 

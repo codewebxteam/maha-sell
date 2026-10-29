@@ -191,7 +191,7 @@ export default function Footer({
           
           {/* Copyright & Entity */}
           <div className="text-center md:text-left space-y-1.5">
-            <p>© 2026 {config.companyName || "SP Gooseberry Textile Pvt. Ltd."}. All rights reserved.</p>
+            <p>© 2026 {config.companyName || "SP.GOOSEBERRY TEXTILE PRIVATE LIMITED"}. All rights reserved.</p>
             <p className="text-[11px] text-stone-500 font-light flex flex-wrap items-center justify-center md:justify-start gap-1.5">
               <span>Crafted for India with Unbeatable Quality &amp; Transparency.</span>
               <span className="hidden sm:inline text-stone-600">•</span>

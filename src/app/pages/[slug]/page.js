@@ -399,7 +399,7 @@ const STATIC_PAGES_DATA = {
     content: (
       <div className="space-y-6 text-stone-700 leading-relaxed text-xs sm:text-sm">
         <p>
-          SP Gooseberry Textile Pvt. Ltd. (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;us&rdquo;) is committed to protecting the privacy, confidentiality, and security of all customers and website visitors.
+          SP.GOOSEBERRY TEXTILE PRIVATE LIMITED (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;us&rdquo;) is committed to protecting the privacy, confidentiality, and security of all customers and website visitors.
         </p>
         
         <div className="space-y-4">
@@ -442,7 +442,7 @@ const STATIC_PAGES_DATA = {
           </div>
           <div className="p-4 bg-white rounded-xl border border-stone-200">
             <h4 className="font-bold text-stone-900 text-sm">3. Intellectual Property</h4>
-            <p className="text-stone-600 mt-1">All motifs, photography, brand imagery, and editorial chronicles are the registered intellectual property of SP Gooseberry Textile Pvt. Ltd.</p>
+            <p className="text-stone-600 mt-1">All motifs, photography, brand imagery, and editorial chronicles are the registered intellectual property of SP.GOOSEBERRY TEXTILE PRIVATE LIMITED.</p>
           </div>
         </div>
       </div>

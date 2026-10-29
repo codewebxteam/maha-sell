@@ -353,7 +353,7 @@ export default function OrderDetailPage() {
                       </span>
                     </p>
                     <p className="text-[11px] text-emerald-800 mt-0.5">
-                      Issued with Maha Sell Kushinagar (U.P.) registered GSTIN, HSN breakdown &amp; delivery billing details.
+                      Issued under SP.GOOSEBERRY TEXTILE PRIVATE LIMITED (GSTIN: 09ABICS2544R1ZK), Kushinagar (U.P.).
                     </p>
                   </div>
                 </div>

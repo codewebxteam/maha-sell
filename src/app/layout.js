@@ -117,7 +117,16 @@ const jsonLdWebsite = {
       "@type": "Organization",
       "@id": "https://mahasell.in/#organization",
       "name": "Maha Sell",
-      "legalName": "SP Gooseberry Textile Pvt. Ltd.",
+      "legalName": "SP.GOOSEBERRY TEXTILE PRIVATE LIMITED",
+      "taxID": "09ABICS2544R1ZK",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Karkhana, Batulahiya",
+        "addressLocality": "Kushinagar",
+        "addressRegion": "Uttar Pradesh",
+        "postalCode": "274402",
+        "addressCountry": "IN"
+      },
       "url": "https://mahasell.in",
       "logo": {
         "@type": "ImageObject",
