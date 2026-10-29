@@ -275,7 +275,7 @@ export default function OrdersPage() {
                               } catch (e) {}
                             }}
                             className="px-3.5 py-1.5 rounded-full border border-stone-300 hover:border-emerald-600 hover:bg-emerald-50 text-stone-800 hover:text-emerald-950 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-xs bg-white"
-                            title="Download official Flipkart-style Tax Invoice"
+                            title="Download Official GST Tax Invoice"
                           >
                             <FileText className="w-3.5 h-3.5 text-emerald-700" />
                             <span>Tax Invoice</span>

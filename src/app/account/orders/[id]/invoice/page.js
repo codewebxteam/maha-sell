@@ -107,7 +107,7 @@ export default function OrderInvoicePage() {
     return (
       <div className="min-h-screen bg-stone-100 flex flex-col items-center justify-center p-4">
         <Loader2 className="w-8 h-8 text-amber-800 animate-spin mb-3" />
-        <p className="text-xs font-semibold text-stone-600">Generating Official Flipkart-style Tax Invoice...</p>
+        <p className="text-xs font-semibold text-stone-600">Generating Official GST Tax Invoice...</p>
       </div>
     );
   }

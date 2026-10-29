@@ -386,7 +386,7 @@ export default function OrderDetailPage() {
                       ? "border-emerald-600 hover:bg-emerald-50 text-emerald-900 bg-emerald-50/50 shadow-xs" 
                       : "border-amber-300 text-amber-900 bg-amber-50 hover:bg-amber-100"
                   }`}
-                  title={isDelivered ? "Download or print official Flipkart-style GST invoice" : "Invoice available only after delivery"}
+                  title={isDelivered ? "Download or print Official GST Tax Invoice" : "Invoice available only after delivery"}
                 >
                   {isDelivered ? (
                     <>
@@ -444,7 +444,7 @@ export default function OrderDetailPage() {
                   </div>
                   <div>
                     <p className="font-bold text-xs text-emerald-900 flex items-center gap-1.5">
-                      <span>Official Flipkart-Format Tax Invoice Ready</span>
+                      <span>Official GST Tax Invoice Ready</span>
                       <span className="text-[10px] px-2 py-0.5 bg-emerald-200 text-emerald-900 rounded-full font-bold uppercase tracking-wider">
                         Delivered
                       </span>
@@ -811,7 +811,7 @@ export default function OrderDetailPage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-sm text-stone-900">Maha Sell • Official Tax Invoice</h3>
-                  <p className="text-[11px] text-stone-500 font-mono">OD{order.id} • Flipkart Standard Format</p>
+                  <p className="text-[11px] text-stone-500 font-mono">Order #{order.id} • GST Compliant</p>
                 </div>
               </div>
 

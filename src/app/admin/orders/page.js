@@ -487,7 +487,7 @@ export default function AdminOrdersPage() {
                                   sessionStorage.setItem("mahasell_view_order", JSON.stringify(order));
                                 } catch (e) {}
                               }}
-                              title="Print Flipkart-style Tax Invoice"
+                              title="Print Official GST Tax Invoice"
                               className="p-1.5 rounded-lg text-emerald-700 hover:text-emerald-900 hover:bg-emerald-50 border border-emerald-200 transition-colors"
                             >
                               <FileText className="w-3.5 h-3.5" />
@@ -706,10 +706,10 @@ export default function AdminOrdersPage() {
                     ? "border-emerald-600 bg-emerald-50 text-emerald-900 hover:bg-emerald-100"
                     : "border-amber-300 bg-amber-50 text-amber-900 hover:bg-amber-100"
                 }`}
-                title={(selectedOrder.status || "").toLowerCase().includes("deliver") ? "Print official Flipkart-style Tax Invoice" : "Invoice requires Delivered status"}
+                title={(selectedOrder.status || "").toLowerCase().includes("deliver") ? "Print official GST Tax Invoice" : "Invoice requires Delivered status"}
               >
                 <FileText className="w-4 h-4 text-emerald-800" />
-                <span>{(selectedOrder.status || "").toLowerCase().includes("deliver") ? "Tax Invoice (Flipkart)" : "Invoice (Delivery Pending)"}</span>
+                <span>{(selectedOrder.status || "").toLowerCase().includes("deliver") ? "Official Tax Invoice" : "Invoice (Delivery Pending)"}</span>
               </button>
               <button
                 onClick={() => {

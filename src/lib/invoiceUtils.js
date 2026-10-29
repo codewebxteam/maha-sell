@@ -28,7 +28,7 @@ export const SELLER_DETAILS = {
   ],
   regDate: "04/05/2022",
   regType: "Regular",
-  email: "care@mahasell.in",
+  email: "info@mahasell.in",
   phone: "+91 9770150015",
   website: "www.mahasell.in"
 };
@@ -204,9 +204,9 @@ export function calculateInvoiceData(order) {
   const totalSgst = processedItems.reduce((acc, it) => acc + it.sgstAmount, 0);
   const totalIgst = processedItems.reduce((acc, it) => acc + it.igstAmount, 0);
 
-  // Clean Order & Invoice IDs
+  // Clean Order & Invoice IDs: Use exact order / tracking ID
+  const orderDisplayId = String(order.id || "").trim();
   const rawId = String(order.id || "").replace(/[^a-zA-Z0-9]/g, "");
-  const orderDisplayId = order.id?.startsWith("OD") ? order.id : `OD${rawId.toUpperCase()}`;
   const invoiceNumber = `INV-MS-2026-${rawId.slice(-6).toUpperCase() || "092104"}`;
 
   // Date formatting
@@ -262,7 +262,7 @@ export function calculateInvoiceData(order) {
       state: customerState,
       pincode: shipping.pincode || "274402",
       mobile: shipping.mobile || order.phone || "",
-      email: shipping.email || order.userEmail || order.email || "support@mahasell.in"
+      email: shipping.email || order.userEmail || order.email || "info@mahasell.in"
     }
   };
 }
