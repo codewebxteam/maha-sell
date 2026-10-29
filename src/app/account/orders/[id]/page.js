@@ -35,7 +35,10 @@ import { useAuth } from "@/context/AuthContext";
 
 export default function OrderDetailPage() {
   const routeParams = useParams();
-  const rawRouteId = routeParams?.id ? decodeURIComponent(routeParams.id).trim() : "";
+  const rawRouteId = routeParams?.id 
+    ? (Array.isArray(routeParams.id) ? decodeURIComponent(routeParams.id[0]).trim() : decodeURIComponent(routeParams.id).trim())
+    : "";
+  const id = rawRouteId;
   const { user, loading: authLoading } = useAuth();
 
   // Instant prefill from sessionStorage if user clicked "View Details" from /account or /account/orders
@@ -226,13 +229,18 @@ export default function OrderDetailPage() {
   }
 
   // Formatting helpers
-  const orderDateDisplay = order.date 
-    ? order.date 
-    : order.createdAt?.seconds 
-    ? new Date(order.createdAt.seconds * 1000).toLocaleString("en-IN", { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) 
-    : order.createdAt?.toDate 
-    ? order.createdAt.toDate().toLocaleString("en-IN", { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) 
-    : "Recently Placed";
+  let orderDateDisplay = "Recently Placed";
+  try {
+    if (order?.date) {
+      orderDateDisplay = String(order.date);
+    } else if (order?.createdAt?.seconds) {
+      orderDateDisplay = new Date(order.createdAt.seconds * 1000).toLocaleString("en-IN", { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    } else if (typeof order?.createdAt?.toDate === "function") {
+      orderDateDisplay = order.createdAt.toDate().toLocaleString("en-IN", { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    }
+  } catch (e) {
+    orderDateDisplay = "Recently Placed";
+  }
 
   const status = order.status || "Order Placed & Confirmed";
   const sLower = status.toLowerCase().trim();
